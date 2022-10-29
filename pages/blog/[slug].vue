@@ -2,13 +2,13 @@
   <div v-if="post" class="max-w-3xl p-5 mx-auto">
 
     <Head>
-      <Title>{{ post.title }}</Title> -->
+      <Title>{{ post.title }}</Title>
     </Head>
     <BreadCrumbs />
 
     <div class="mb-4">
       <div class="flex space-x-3">
-        <div v-if="post.published_at" class="pb-1 dark:text-zinc-400">
+        <div v-if="post.published_at" class="pb-1 ">
           {{ convertDate(post.published_at) }}
         </div>
         <div v-if="post.views" class="text-cyan-500">{{post.views}} Views</div>
@@ -20,7 +20,7 @@
     <!-- <div v-if="post.lastUpdatedAt" class="text-cyan-600">
       {{ convertDate(post.lastPublishedAt) }}
     </div> -->
-    <article v-html="postHtml" class="prose dark:text-zinc-400 font-arvo">
+    <article v-html="postHtml" class="prose font-arvo">
 
     </article>
 

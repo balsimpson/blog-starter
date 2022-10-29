@@ -31,18 +31,20 @@ export default defineNuxtConfig({
     exposeConfig: true
   },
   modules: [
-    '@nuxt/content', '@nuxtjs/color-mode', '@nuxt/image-edge',
+    '@nuxt/content', 
+    // '@nuxtjs/color-mode', 
+    '@nuxt/image-edge',
   ],
-  colorMode: {
-    preference: 'system', // default value of $colorMode.preference
-    fallback: 'light', // fallback value if not system preference found
-    hid: 'nuxt-color-mode-script',
-    globalName: '__NUXT_COLOR_MODE__',
-    componentName: 'ColorScheme',
-    classPrefix: '',
-    classSuffix: '',
-    storageKey: 'nuxt-color-mode'
-  },
+  // colorMode: {
+  //   preference: 'light', // default value of $colorMode.preference
+  //   fallback: 'light', // fallback value if not system preference found
+  //   hid: 'nuxt-color-mode-script',
+  //   globalName: '__NUXT_COLOR_MODE__',
+  //   componentName: 'ColorScheme',
+  //   classPrefix: '',
+  //   classSuffix: '',
+  //   storageKey: 'nuxt-color-mode'
+  // },
   publicRuntimeConfig: {
     FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
     FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID,
