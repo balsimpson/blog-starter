@@ -15,11 +15,12 @@
           </div>
         </button>
 
-        <div class="relative h-full overflow-hidden border rounded-lg carousel-track border-cyan-500">
+        <div class="relative h-full overflow-hidden border rounded-lg carousel-track border-emerald-500 bg-emerald-700"
+        >
           <ul class="h-full transition duration-500 ease-in-out" ref="slidesElement">
             <li @mouseover="pauseSlider()" @mouseout="startSlider()" @click="navigateTo('/blog/'+ item.slug)"
               v-for="(item, index) in items" class="absolute w-full h-full cursor-pointer" :id="index">
-              <img loading="lazy" :src="item.image" :alt="item.alt" class="object-cover w-full h-full " />
+              <img v-if="item.image" loading="lazy" :src="item.image" :alt="item.alt" class="object-cover w-full h-full " />
               <div class="absolute z-20 max-w-md px-5 py-4 bg-black/80 bottom-12 left-12">
                 <div class="text-2xl font-bold text-left text-white capitalize">
                   {{ item.title }}
@@ -201,8 +202,13 @@ onMounted(() => {
   dotsNav.value.children[0].classList.add("bg-brand-500/50", "current-slide");
   slidesElement.value.children[0].classList.add("current-slide");
 
-  // startSlider();
+  startSlider();
 });
+
+onBeforeUnmount(() => {
+  // console.log("unmounted")
+  clearInterval(sliderAutomation.value);
+})
 
 const createSlug = (title, id) => {
   return (

@@ -28,7 +28,7 @@
               to="/blog"
               class="text-sm font-medium dark:text-cyan-600 hover:text-gray-900 dark:hover:text-gray-200md:ml-2 "
             >
-              Blog
+              Home
             </NuxtLink>
           <!-- </div> -->
         </li>
@@ -47,7 +47,7 @@
               ></path>
             </svg>
             <span class="ml-1 text-sm font-medium text-gray-400 dark:text-gray-600 md:ml-2"
-              >Article</span
+              >Post</span
             >
           </div>
         </li>

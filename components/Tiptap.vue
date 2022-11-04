@@ -7,139 +7,140 @@
     <div
       class="sticky top-0 z-20 flex justify-between text-neutral-500 focus:outline-none toolbar "
     >
-    <div class="flex flex-wrap items-center gap-2 p-4">
+    <div class="flex flex-wrap items-center gap-2 p-4 ">
       <IconHeadingH1
         @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
-        class="w-8 h-8 cursor-pointer hover:text-teal-500"
+        class="w-8 h-8 cursor-pointer hover:text-teal-600"
         :class="[
           editor.isActive('heading', { level: 1 })
-            ? 'is-active text-teal-500'
-            : 'text-neutral-400',
+            ? 'is-active text-teal-600'
+            : 'text-stone-400',
         ]"
       />
 
       <IconHeadingH2
         @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
-        class="w-8 h-8 cursor-pointer hover:text-teal-500"
+        class="w-8 h-8 cursor-pointer hover:text-teal-600"
         :class="[
           editor.isActive('heading', { level: 2 })
-            ? 'is-active text-teal-500'
+            ? 'is-active text-teal-600'
             : 'text-neutral-400',
         ]"
       />
 
       <IconHeadingH3
         @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
-        class="w-8 h-8 cursor-pointer hover:text-teal-500"
+        class="w-8 h-8 cursor-pointer hover:text-teal-600"
         :class="[
           editor.isActive('heading', { level: 3 })
-            ? 'is-active text-teal-500'
+            ? 'is-active text-teal-600'
             : 'text-neutral-400',
         ]"
       />
 
       <IconBold
         @click="editor.chain().focus().toggleBold().run()"
-        class="w-6 cursor-pointer hover:text-teal-500"
+        class="w-6 cursor-pointer hover:text-teal-600"
         :class="[
           editor.isActive('bold')
-            ? 'is-active text-teal-500'
+            ? 'is-active text-teal-600'
             : 'text-neutral-400',
         ]"
       />
 
       <IconItalic
         @click="editor.chain().focus().toggleItalic().run()"
-        class="w-6 cursor-pointer hover:text-teal-500"
+        class="w-6 cursor-pointer hover:text-teal-600"
         :class="[
           editor.isActive('italic')
-            ? 'is-active text-teal-500'
+            ? 'is-active text-teal-600'
             : 'text-neutral-400',
         ]"
       />
 
       <IconQuote
         @click="editor.chain().focus().toggleBlockquote().run()"
-        class="w-6 cursor-pointer hover:text-teal-500"
+        class="w-6 cursor-pointer hover:text-teal-600"
         :class="[
           editor.isActive('blockquote')
-            ? 'is-active text-teal-500'
+            ? 'is-active text-teal-600'
             : 'text-neutral-400',
         ]"
       />
 
       <!-- <IconCode
         @click="editor.chain().focus().toggleCode().run()"
-        class="w-8 cursor-pointer hover:text-teal-500"
+        class="w-8 cursor-pointer hover:text-teal-600"
         :class="[
           editor.isActive('code')
-            ? 'is-active text-teal-500'
+            ? 'is-active text-teal-600'
             : 'text-neutral-400',
         ]"
       /> -->
 
       <!-- <IconCodeBlock
         @click="editor.chain().focus().toggleCodeBlock().run()"
-        class="w-8 cursor-pointer hover:text-teal-500"
+        class="w-8 cursor-pointer hover:text-teal-600"
         :class="[
           editor.isActive('codeBlock')
-            ? 'is-active text-teal-500'
+            ? 'is-active text-teal-600'
             : 'text-neutral-400',
         ]"
       /> -->
 
       <IconHighlight
         @click="editor.chain().focus().toggleHighlight().run()"
-        class="w-8 cursor-pointer hover:text-teal-500"
+        class="w-8 cursor-pointer hover:text-teal-600"
         :class="[
           editor.isActive('highlight')
-            ? 'is-active text-teal-500'
+            ? 'is-active text-teal-600'
             : 'text-neutral-400',
         ]"
       />
       <IconAlignLeft
         @click="editor.chain().focus().setTextAlign('left').run()"
-        class="w-8 cursor-pointer hover:text-teal-500"
+        class="w-8 cursor-pointer hover:text-teal-600"
         :class="[
           editor.isActive({ textAlign: 'left' })
-            ? 'is-active text-teal-500'
+            ? 'is-active text-teal-600'
             : 'text-neutral-400',
         ]"
       />
       <IconAlignMiddle
         @click="editor.chain().focus().setTextAlign('center').run()"
-        class="w-8 cursor-pointer hover:text-teal-500"
+        class="w-8 cursor-pointer hover:text-teal-600"
         :class="[
           editor.isActive({ textAlign: 'center' })
-            ? 'is-active text-teal-500'
+            ? 'is-active text-teal-600'
             : 'text-neutral-400',
         ]"
       />
       <IconAlignRight
         @click="editor.chain().focus().setTextAlign('right').run()"
-        class="w-8 cursor-pointer hover:text-teal-500"
+        class="w-8 cursor-pointer hover:text-teal-600"
         :class="[
           editor.isActive({ textAlign: 'right' })
-            ? 'is-active text-teal-500'
+            ? 'is-active text-teal-600'
             : 'text-neutral-400',
         ]"
       />
 
       <IconYoutube
         @click="showAddYTLink = !showAddYTLink"
-        class="relative w-8 h-8 cursor-pointer hover:text-teal-500"
+        class="relative w-8 h-8 cursor-pointer hover:text-teal-600"
         :class="[
-          showAddYTLink ? 'is-active text-teal-500' : 'text-neutral-400',
+          showAddYTLink ? 'is-active text-teal-600' : 'text-neutral-400',
         ]"
       />
 
       <label
         class="flex flex-col items-center w-8 transition-colors cursor-pointer "
+        :class="[isUploadingImage ? 'animate-pulse': '']"
       >
         <IconImageAdd
           :class="[
             editor.isActive('image')
-              ? 'is-active text-teal-500'
+              ? 'is-active text-teal-600'
               : 'text-neutral-400 hover:text-teal-500',
           ]"
         />
@@ -337,6 +338,9 @@ const showAddYTLink = ref("");
 const showAddLink = ref("");
 const ytLink = ref("");
 const urlLink = ref("");
+
+const isUploadingImage = ref(false);
+
 const runtimeConfig = useRuntimeConfig();
 
 const vFocus = {
@@ -345,6 +349,7 @@ const vFocus = {
 
 const CustomDocument = Document.extend({
   content: "heading block*",
+  // content: "block*",
 });
 
 const editor = useEditor({
@@ -353,13 +358,14 @@ const editor = useEditor({
     StarterKit.configure({
       document: false,
       heading: {
-        levels: [1, 2, 3, 4, 5, 6],
+        levels: [1, 2, 3],
       }
     }),
     Image,
     Link.configure({
       openOnClick: false,
     }),
+    
     TextAlign.configure({
       types: ["heading", "paragraph"],
     }),
@@ -371,7 +377,7 @@ const editor = useEditor({
       placeholder: ({ node }) => {
         // return "Write something …" + node.type.name;
         if (node.type.name == "heading") {
-          return "What’s the title?";
+          return "What’s the title of the post?";
         } else {
           return "Write something …";
         }
@@ -400,13 +406,15 @@ const readData = (f) => {
 };
 
 const uploadImage = async (event) => {
+  isUploadingImage.value = true;
+  
   let file = event.target.files[0];
   // const data = await readData(file);
 
   let formData = new FormData();
   formData.append("file", file);
   formData.append("upload_preset", runtimeConfig.CLOUDINARY_UPLOAD_PRESET);
-  formData.append("folder", "blog");
+  formData.append("folder", "pullonath");
 
   const response = await fetch(
     `https://api.cloudinary.com/v1_1/${runtimeConfig.CLOUDINARY_NAME}/image/upload`,
@@ -421,6 +429,8 @@ const uploadImage = async (event) => {
   if (res.secure_url) {
     editor.value.chain().focus().setImage({ src: res.secure_url }).run();
   }
+
+  isUploadingImage.value = false;
 };
 
 // add YouTube video
@@ -476,7 +486,7 @@ const addLink = (url) => {
   border-right: 1px solid #b6b6b6;
   border-bottom: 1px solid #b6b6b6;
   /* background: #d6d6d6; */
-  border-radius: 0 0 0px 0px;
+  border-radius: 0 0 10px 10px;
   transition: color 0.3s ease-in-out;
 }
 
@@ -510,7 +520,7 @@ const addLink = (url) => {
   border-left: 1px solid #b6b6b6;
   border-right: 1px solid #b6b6b6;
   border-top: 1px solid #b6b6b6;
-  background: #ececec;
+  background: #000000;
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -546,7 +556,7 @@ const addLink = (url) => {
 .ProseMirror is-empty:first::before {
   content: attr(data-placeholder);
   float: left;
-  color: #adb5bd;
+  color: #c2c3c4;
   pointer-events: none;
   height: 0;
 }
@@ -572,15 +582,15 @@ const addLink = (url) => {
   font-weight: 500;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   .prose :where(a):not(:where([class~="not-prose"] *)) {
     color: rgb(28, 113, 174);
     text-decoration: none;
     font-weight: 500;
   }
-}
+} */
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   .prose :where(h2):not(:where([class~="not-prose"] *)) {
     color: #adb5bd;
   }
@@ -590,7 +600,7 @@ const addLink = (url) => {
   .prose :where(h3):not(:where([class~="not-prose"] *)) {
     color: #adb5bd;
   }
-}
+} */
 
 .ProseMirror .prose {
   font-size: 0.9rem;

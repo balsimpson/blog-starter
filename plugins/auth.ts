@@ -5,7 +5,7 @@ export default defineNuxtPlugin(() => {
         // console.log('firebase', userCookie.value);
 
         if (!userCookie.value) {
-            return navigateTo('/admin/signin')
+            return navigateTo('/signin')
         }
     })
 })

@@ -121,9 +121,11 @@ const signOut = async () => {
     font-weight: bold;
 } */
 nav .router-link-active {
-  font-weight: bold;
-  color: #16928a;
+  /* font-weight: bold; */
+  color: #ffffff;
   text-decoration: none;
+  pointer-events: none;
+  opacity: 0.5;
 }
 /* a.router-link-active {
   font-weight: bold;

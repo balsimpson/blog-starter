@@ -52,7 +52,6 @@ export const createSlug = (title, id) => {
 }
 
 export const getPostDetails = (data) => {
-
   if (data && data.content) {
     let title = data.content.find(element => element.type == "heading");
     if (title && title.content) {
@@ -122,5 +121,6 @@ export const convertDate = (d) => {
     "Dec",
   ];
 
-  return day + " " + months[m] + " " + y + " " + h + ":" + min;
+  // return day + " " + months[m] + " " + y + " " + h + ":" + min;
+  return day + " " + months[m] + " " + y;
 };

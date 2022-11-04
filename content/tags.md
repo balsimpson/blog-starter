@@ -1,8 +1,7 @@
 ---
 items:
-- meta tags
-- composable
-- nuxt 3
-- firebase
-- tailwindcss
+- story
+- post
+- image
+- get together
 ---

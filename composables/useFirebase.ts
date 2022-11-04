@@ -1,11 +1,13 @@
 import {
   getAuth,
+  updateProfile,
+  updatePassword,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
 } from "firebase/auth";
 
-import { addDoc, collection, getFirestore, getDocs, getDoc, doc, query, onSnapshot, writeBatch, deleteDoc, updateDoc, orderBy, where, limit, DocumentData, Query, increment } from "firebase/firestore"
+import { addDoc, setDoc, collection, getFirestore, getDocs, getDoc, doc, query, onSnapshot, writeBatch, deleteDoc, updateDoc, orderBy, where, limit, DocumentData, Query, increment } from "firebase/firestore"
 
 export const createUser = async (email: string, password: string) => {
   const auth = getAuth();
@@ -32,7 +34,7 @@ export const signInUser = async (email: string, password: string) => {
     console.log(errorCode, errorMessage);
 
     if (errorCode === "auth/user-not-found") {
-      return "You are not authorised. Create a user in Firebase";
+      return "You are not on the list. Request an invite.";
     }
     if (errorCode === "auth/wrong-password") {
       return "Wrong password";
@@ -55,6 +57,40 @@ export const signInUser = async (email: string, password: string) => {
   });
   return credentials;
 };
+
+/**
+ * update user profile
+ * @param {object} user - the user to update
+ * @param {object} data - the data to update
+ * @param {string} data.displayName - display name to update
+ * @param {string} data.photoURL - display name to update
+ * @example updateUserProfile(user, { displayName: "name", photoURL: "someurl" })
+ */
+export const updateUserProfile = async (user: any, { displayName, photoURL }) => {
+  try {
+    let res = await updateProfile(user, { displayName, photoURL });
+    return res;
+  } catch (error) {
+    console.log('updateUserProfile-error', error);
+    return error;
+  }
+}
+
+/**
+ * update user profile
+ * @param {object} user - the user to update
+ * @param {string} newPassword - the data to update
+ * @example updateUserPassword(user, newPassword)
+ */
+export const updateUserPassword = async (user: any, newPassword: string) => {
+  try {
+    let res = await updatePassword(user, newPassword);
+    return res;
+  } catch (error) {
+    console.log('updateUserProfile-error', error);
+    return error;
+  }
+}
 
 export const initUser = async () => {
   const auth = getAuth();
@@ -108,6 +144,26 @@ export const addDocToFirestore = async (collectionName: string, doc: any) => {
   try {
     let docRef = collection(db, collectionName);
     let res = await addDoc(docRef, doc);
+    return res;
+  } catch (error) {
+    console.log('firebase-error', error);
+    return error;
+  }
+}
+
+/**
+* Set a document to a collection
+* @param {string} collectionName - collection name
+* @param {string} id - unique id
+* @param {object} data - document to add
+* @example setDocToFirestore('products', 'new-id', { title: "test", body: "test" })
+*/
+export const setDocToFirestore = async (collectionName: string, id: string, data: any) => {
+  const db = getFirestore();
+  try {
+    let res = await setDoc(doc(db, collectionName, id), data,
+    // { merge: false }
+    );
     return res;
   } catch (error) {
     console.log('firebase-error', error);
@@ -183,7 +239,7 @@ export const getOrderedDocsFromFirestore = async (collectionName: string, order:
 * @returns {Array} array of items
 * @example getDocsWithStatus('posts', 'published', 3, 'published_at')
 */
-export const getDocsWithStatus = async (collectionName: string, status: string, count: number, order: string = "published_at" ) => {
+export const getDocsWithStatus = async (collectionName: string, status: string, count: number, order: string = "published_at") => {
   try {
     const db = getFirestore();
     let items = [];

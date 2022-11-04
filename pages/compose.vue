@@ -1,14 +1,14 @@
 <template>
-  <div class="flex flex-col h-full sm:mt-0 sm:p-4">
+  <div class="flex flex-col h-full max-w-5xl mx-auto sm:mt-0 sm:p-4">
     
     <!-- <AppAutocomplete :options="tagsuggestions.items"/> -->
     <div class="flex-grow w-full mx-auto mt-1 overflow-y-auto">
       <Tiptap @update="docUpdated" />
     </div>
-    <div class="p-2">
+    <div class="py-2">
       <TagInput :suggestions="tagsuggestions.items" @updated="addTags" />
     </div>
-    <div class="flex flex-col justify-center px-4 pb-4">
+    <div class="flex flex-col justify-center">
       
       <div class="flex justify-between pt-2 space-x-2 sm:space-x-8">
         <button
@@ -53,6 +53,7 @@ import { serverTimestamp } from "firebase/firestore";
 import { useToast } from "vue-toastification";
 definePageMeta({
   layout: "default",
+  middleware: ["auth"],
   title: "Compose",
 });
 
@@ -66,6 +67,7 @@ useHead({
   ],
 });
 
+const userCookie = useCookie("userCookie");
 const editorPost = ref({});
 const postDetails = computed(() => getPostDetails(editorPost.value));
 const postTags = ref([]);
@@ -81,6 +83,7 @@ const docUpdated = (doc) => {
 };
 
 const saveDoc = async (status) => {
+  console.log(userCookie.value)
   const { title, description, image } = getPostDetails(editorPost.value);
 
   if (status == "draft") {
@@ -92,6 +95,12 @@ const saveDoc = async (status) => {
   if (title || image) {
     const slug = createSlug(title);
     const data = {
+      author: {
+        name: userCookie.value.providerData[0].displayName,
+        email: userCookie.value.providerData[0].email,
+        photo: userCookie.value.providerData[0].photoURL,
+        uid: userCookie.value.uid,
+      },
       title,
       description,
       image,
@@ -118,7 +127,7 @@ const saveDoc = async (status) => {
 
 const addTags = (tags) => {
   postTags.value = tags;
-  console.log("tags", tags);
+  // console.log("tags", tags);
 };
 </script>
 

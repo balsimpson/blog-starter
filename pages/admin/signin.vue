@@ -1,22 +1,43 @@
 <template>
-  <div class="flex items-center justify-center min-h-screen bg-white dark:bg-stone-900">
+  <div class="flex items-center justify-center min-h-screen bg-white">
     <div class="w-full max-w-md px-2 py-12 mx-auto bg-transparent sm:px-12">
       <div
         class="mt-6 text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-teal-400 to-teal-800 "
       >
         Sign in.
       </div>
-      <p class="mt-2 text-gray-500">
-        Create a user in your Firebase Project at
-        <a
-          href="https://console.firebase.google.com"
-          class="text-teal-500"
-          target="_blank"
-          >Firebase Console </a
-        >to sign in. 
-      </p>
 
-      <div class="w-full mx-auto mt-12">
+      
+      <div class="px-4 py-3 mt-6 border rounded">
+        <p class="text-sm text-gray-500">
+        You need an invitation to enter <span class="font-bold">Pullonath</span>. Enter your email address below to request an invite.
+      </p>
+      <div>
+          <!-- <label
+            for="email"
+            class="block text-sm font-bold text-left text-gray-500"
+          >
+            Email
+          </label> -->
+          <div class="mt-2">
+            <input
+              v-model="emailInput"
+              type="email"
+              autocomplete="email"
+              required="true"
+              placeholder="john@doe.com"
+              class="w-full px-3 py-1 text-base leading-8 transition-colors duration-200 ease-in-out border rounded outline-none text-stone-600 bg-stone-600 border-stone-600 bg-opacity-20 focus:bg-transparent focus:ring-1 placeholder-stone-400 focus:ring-teal-500 focus:border-teal-500 "
+            />
+          </div>
+
+          <button class="px-3 py-1 mt-2 text-sm text-white capitalize bg-indigo-600 rounded-lg">request an invite</button>
+        </div>
+      </div>
+
+      <div class="w-full mx-auto mt-4">
+        <div class="relative w-full my-12 border-b">
+          <div class="absolute px-2 font-bold leading-4 text-center translate-x-1/2 bg-white font-arvo -top-3 right-1/2">Member's Entrance</div>
+        </div>
         <form @submit="login" class="space-y-4">
           <div>
             <label
@@ -133,7 +154,7 @@ const errorMsg = (err) => {
 onMounted(() => {
   const userCookie = useCookie("userCookie");
   if (userCookie) {
-    router.push("/admin");
+    router.push("/");
   }
 });
 </script>

@@ -18,6 +18,9 @@
 </template>
 
 <script setup>
+definePageMeta({
+  middleware: ["auth"],
+});
 const { data: blog } = await useAsyncData("blog", () =>
   queryContent("/blog").findOne()
 );

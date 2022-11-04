@@ -7,16 +7,15 @@
           <div class="flex items-center justify-between w-full md:w-auto">
             <NuxtLink to="/">
               <span class="sr-only">Pullonath</span>
-              <img alt="Workflow" class="w-auto h-8 sm:h-10"
-                src="https://tailwindui.com/img/logos/workflow-mark-cyan-600.svg" />
+              <img alt="Pullonath" class="w-auto h-8 sm:h-10" src="logo.svg" />
             </NuxtLink>
           </div>
         </div>
-        <div class="flex flex-wrap items-center space-x-2 md:ml-10">
+        <div class="flex flex-wrap items-center mt-3 space-x-2 sm:mt-0 md:ml-10">
 
           <!-- <ToggleDarkmode /> -->
           <!-- <button
-            class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700">
+            class="inline-flex items-center px-4 py-2 text-sm font-medium text-white rounded-md bg-emerald-600 hover:bg-indigo-700">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
               stroke="currentColor" class="w-6 h-6">
               <path stroke-linecap="round" stroke-linejoin="round"
@@ -32,7 +31,7 @@
             Blog</NuxtLink> -->
 
           <NuxtLink to="/compose"
-            class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700">
+            class="inline-flex items-center px-4 py-2 text-sm font-medium text-white rounded-md bg-emerald-600 hover:bg-emerald-700">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
               stroke="currentColor" class="w-6 h-6">
               <path stroke-linecap="round" stroke-linejoin="round"
@@ -41,7 +40,12 @@
             <span class="ml-2 tracking-wide">Create Post</span>
           </NuxtLink>
 
+          <NuxtLink v-if="user" to="/profile" class="flex items-center justify-center w-10 h-10 font-bold text-white bg-red-500 rounded-full">
+            {{name.substring(0, 1)}}
+          </NuxtLink>
         </div>
+        <!-- <pre>{{userCookie}}</pre> -->
+        <!-- <pre>{{user}}</pre> -->
       </nav>
     </div>
     <div class="flex-grow">
@@ -52,4 +56,13 @@
 
 <script setup>
 import { IconGithub } from "@iconify-prerendered/vue-bxl";
+const user = ref("");
+const name = ref("");
+const userCookie = useCookie("userCookie")
+
+onMounted(() => {
+  user.value = userCookie.value.providerData[0];
+  name.value = user.value.displayName;
+  console.log(userCookie.value)
+})
 </script>
