@@ -60,11 +60,10 @@ export const signInUser = async (email: string, password: string) => {
 
 /**
  * update user profile
- * @param {object} user - the user to update
  * @param {object} data - the data to update
  * @param {string} data.displayName - display name to update
  * @param {string} data.photoURL - display name to update
- * @example updateUserProfile(user, { displayName: "name", photoURL: "someurl" })
+ * @example updateUserProfile({ displayName: "name", photoURL: "someurl" })
  */
 export const updateUserProfile = async ({ displayName, photoURL }) => {
   try {

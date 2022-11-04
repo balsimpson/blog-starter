@@ -4,7 +4,7 @@ import { defineNuxtConfig } from 'nuxt'
 export default defineNuxtConfig({
   app: {
     head: {
-      title: 'Nuxt 3 Blogger',
+      title: 'Pullonath',
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       ],

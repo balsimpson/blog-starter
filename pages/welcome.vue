@@ -15,7 +15,7 @@
             What's your name?
           </label>
           <div class="mt-2">
-            <input v-model="name" type="text" autocomplete="first-name" required="true" placeholder="Gopal"
+            <input v-model="name" type="text" autocomplete="name" required="true" placeholder="Gopal"
               class="w-full px-3 py-1 text-base leading-8 transition-colors duration-200 ease-in-out border rounded outline-none text-stone-600 bg-stone-600 border-stone-600 bg-opacity-20 focus:bg-transparent focus:ring-1 placeholder-stone-400 focus:ring-emerald-500 focus:border-emerald-500 " />
           </div>
           <label for="email" class="block mt-4 text-sm font-bold text-center text-gray-500">

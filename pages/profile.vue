@@ -43,6 +43,10 @@
         </div>
       </div>
 
+      <pre>{{
+          invitedList
+      }}</pre>
+
       <div class="flex items-center justify-center px-4 py-3 mt-6 border rounded">
         <div v-if="!inviteRequestSuccess">
           <div class="text-xl font-bold">Send an invite</div>
@@ -157,6 +161,8 @@ const inviteBtnText = ref("Send An Invite");
 const isRequestingInvite = ref(false);
 const inviteRequestSuccess = ref(false);
 
+const invitedList = ref([]);
+
 const signOut = async () => {
   // console.log("signing out");
   await signOutUser();
@@ -170,7 +176,7 @@ const sendInvite = async () => {
 
   // create user
   let user = await createUser(inviteEmail.value, config.TEMP_PASSWORD)
-  
+  console.log('user', user)
   // add record to firestore
   let res = await addDocToFirestore("invites", {
     name: inviteName.value,
@@ -207,9 +213,11 @@ const updateProfileImage = async (imgUrl) => {
   console.log(res)
 }
 
-onMounted(() => {
+onMounted(async () => {
   user.value = userCookie.value.providerData[0];
   name.value = user.value.displayName;
+
+  invitedList.value = await getDocsFromFirestore("invites");
   // console.log(userCookie.value)
 })
 
