@@ -7,7 +7,7 @@
           <div class="flex items-center justify-between w-full md:w-auto">
             <NuxtLink to="/">
               <span class="sr-only">Pullonath</span>
-              <img alt="Pullonath" class="w-auto h-8 sm:h-10" src="logo.svg" />
+              <img alt="Pullonath" class="w-auto h-8 sm:h-10" src="/logo.svg" />
             </NuxtLink>
           </div>
         </div>
