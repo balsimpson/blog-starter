@@ -6,7 +6,8 @@
       <div class="my-6 text-center">
         <div class="text-xs">You are logged in as</div>
         <div>{{ user.email }}</div>
-        <button @click="signOut" class="px-3 py-1 mt-2 text-sm text-white capitalize bg-indigo-600 rounded-lg">sign out</button>
+        <button @click="signOut" class="px-3 py-1 mt-2 text-sm text-white capitalize bg-indigo-600 rounded-lg">sign
+          out</button>
       </div>
 
       <div class="flex items-center justify-center px-4 py-3 mt-6 border rounded">
@@ -32,14 +33,15 @@
             </div>
 
             <button @click="sendInvite" class="px-3 py-1 mt-2 text-sm text-white capitalize bg-indigo-600 rounded-lg"
-              :class="[isRequestingInvite ? 'pointer-events-none opacity-50' : '', inviteName && inviteEmail ? '' : 'pointer-events-none opacity-50']">send
-              an invite</button>
+              :class="[isRequestingInvite ? 'pointer-events-none opacity-50' : '', inviteName && inviteEmail ? '' : 'pointer-events-none opacity-50']">
+              {{ inviteBtnText }}
+            </button>
           </div>
         </div>
 
-        <div v-else>
+        <div v-else class="flex items-center justify-center h-44">
           <p class="px-6 text-xl text-center text-teal-600">
-            We have received your request and will get back to you soon at <span class="font-bold">{{ inviteEmail
+            An invite has been sent to <span class="font-bold">{{ inviteEmail
             }}</span>
           </p>
         </div>
@@ -116,6 +118,7 @@ const userCookie = useCookie("userCookie")
 
 const inviteName = ref("");
 const inviteEmail = ref("");
+const inviteBtnText = ref("Send An Invite");
 
 const isRequestingInvite = ref(false);
 const inviteRequestSuccess = ref(false);
@@ -129,7 +132,8 @@ const signOut = async () => {
 const sendInvite = async () => {
   // change status to sending
   isRequestingInvite.value = true;
-  
+  inviteBtnText.value = "Sending..";
+
   // add record to firestore
   let res = await addDocToFirestore("invites", {
     name: inviteName.value,
@@ -141,8 +145,19 @@ const sendInvite = async () => {
 
   // send email through autocode
   let response = await useFetch(`https://amused.autocode.dev/pullonath@dev/invite?email=${inviteEmail.value}&name=${inviteName.value}`);
-  // change status to sent
 
+
+  // change status to sent
+  inviteRequestSuccess.value = true;
+  inviteBtnText.value = "Send An Invite";
+
+  setTimeout(() => {
+    inviteRequestSuccess.value = false;
+    inviteName.value = ""
+    inviteEmail.value = ""
+  }, 4000);
+
+  // reset values
   isRequestingInvite.value = false;
 }
 
