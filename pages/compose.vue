@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col h-full max-w-5xl mx-auto sm:mt-0 sm:p-4">
+  <div class="flex flex-col h-full max-w-4xl mx-auto sm:mt-0 sm:p-4">
     
     <!-- <AppAutocomplete :options="tagsuggestions.items"/> -->
     <div class="flex-grow w-full mx-auto mt-1 overflow-y-auto">

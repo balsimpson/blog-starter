@@ -66,9 +66,10 @@ export const signInUser = async (email: string, password: string) => {
  * @param {string} data.photoURL - display name to update
  * @example updateUserProfile(user, { displayName: "name", photoURL: "someurl" })
  */
-export const updateUserProfile = async (user: any, { displayName, photoURL }) => {
+export const updateUserProfile = async ({ displayName, photoURL }) => {
   try {
-    let res = await updateProfile(user, { displayName, photoURL });
+    const auth = getAuth();
+    let res = await updateProfile(auth.currentUser, { displayName, photoURL });
     return res;
   } catch (error) {
     console.log('updateUserProfile-error', error);

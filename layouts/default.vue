@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col w-full h-screen">
     <div class="relative px-4 py-6 sm:px-6 lg:px-8">
-      <nav class="relative flex flex-col items-center justify-between max-w-3xl mx-auto sm:flex-row "
+      <nav class="relative flex flex-col items-center justify-between max-w-4xl mx-auto sm:flex-row "
         aria-label="Global">
         <div class="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0">
           <div class="flex items-center justify-between w-full md:w-auto">
@@ -31,7 +31,7 @@
             Blog</NuxtLink> -->
 
           <NuxtLink to="/compose"
-            class="inline-flex items-center px-4 py-2 text-sm font-medium text-white rounded-md bg-emerald-600 hover:bg-emerald-700">
+            class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-800 rounded-md hover:bg-red-600">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
               stroke="currentColor" class="w-6 h-6">
               <path stroke-linecap="round" stroke-linejoin="round"
@@ -40,7 +40,10 @@
             <span class="ml-2 tracking-wide">Create Post</span>
           </NuxtLink>
 
-          <NuxtLink v-if="user" to="/profile" class="flex items-center justify-center w-10 h-10 font-bold text-white bg-red-500 rounded-full">
+          <NuxtLink v-if="user.photoURL" to="/profile" class="flex items-center justify-center w-10 h-10 font-bold text-white bg-white border-2 border-red-500 rounded-full">
+            <img :src="user.photoURL" alt="">
+          </NuxtLink>
+          <NuxtLink v-else to="/profile" class="flex items-center justify-center w-10 h-10 font-bold text-white bg-red-500 rounded-full">
             {{name.substring(0, 1)}}
           </NuxtLink>
         </div>

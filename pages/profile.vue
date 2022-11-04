@@ -3,11 +3,44 @@
     <!-- <div>{{ user }}</div> -->
 
     <div class="max-w-3xl px-3 mx-auto space-y-3 sm:px-6">
-      <div class="my-6 text-center">
-        <div class="text-xs">You are logged in as</div>
-        <div>{{ user.email }}</div>
-        <button @click="signOut" class="px-3 py-1 mt-2 text-sm text-white capitalize bg-indigo-600 rounded-lg">sign
-          out</button>
+
+      <div class="relative mt-12 bg-white rounded shadow-md">
+        <div class="absolute flex justify-center w-full -mt-20">
+          <div class="w-32 h-32">
+          </div>
+        </div>
+        <div class="relative">
+          <div class="flex flex-col items-center px-6 mt-16">
+            <!-- <pre>{{ user }}</pre> -->
+            <div class="flex items-center justify-center w-44">
+              <CloudinaryUploadJs v-if="userCookie" @uploaded="updateProfileImage($event)" :image="userCookie.photoURL"
+                alt="Display Picture of Silene Tokyo" role="img"
+                class="object-cover rounded-full shadow-md h-44 w-44" />
+            </div>
+            <h1 class="mt-6 mb-1 text-3xl font-bold text-center ">{{ user.displayName }}</h1>
+            <p class="text-sm text-center text-gray-800 ">{{ user.email }}</p>
+            <button @click="signOut"
+              class="px-3 py-1 mt-2 mb-6 text-sm text-white capitalize bg-indigo-600 rounded-lg">sign
+              out</button>
+            <!-- <p class="pt-3 text-base font-normal text-center text-gray-600 sm:px-6">The emphasis on innovation
+              and technology in our companies has resulted in a few of them establishing global benchmarks in product
+              design and development.</p> -->
+            <!-- <div class="flex justify-center w-full pt-5 pb-5">
+              <a href="javascript:void(0)" class="mx-5">
+                <div aria-label="Twitter" role="img">
+                  <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/gray-bg-with-description-svg2.svg"
+                    alt="twitter" />
+                </div>
+              </a>
+              <a href="javascript:void(0)" class="mx-5">
+                <div aria-label="Instagram" role="img">
+                  <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/gray-bg-with-description-svg3.svg"
+                    alt="instagram" />
+                </div>
+              </a>
+            </div> -->
+          </div>
+        </div>
       </div>
 
       <div class="flex items-center justify-center px-4 py-3 mt-6 border rounded">
@@ -112,6 +145,7 @@
 import { serverTimestamp } from "@firebase/firestore";
 import { IconCheckCircle, IconSend } from "@iconify-prerendered/vue-bx";
 const router = useRouter();
+const config = useRuntimeConfig();
 const user = ref("");
 const name = ref("");
 const userCookie = useCookie("userCookie")
@@ -134,6 +168,9 @@ const sendInvite = async () => {
   isRequestingInvite.value = true;
   inviteBtnText.value = "Sending..";
 
+  // create user
+  let user = await createUser(inviteEmail.value, config.TEMP_PASSWORD)
+  
   // add record to firestore
   let res = await addDocToFirestore("invites", {
     name: inviteName.value,
@@ -159,6 +196,15 @@ const sendInvite = async () => {
 
   // reset values
   isRequestingInvite.value = false;
+}
+
+const updateProfileImage = async (imgUrl) => {
+  console.log(imgUrl)
+  let res = await updateUserProfile({
+    photoURL: imgUrl
+  })
+
+  console.log(res)
 }
 
 onMounted(() => {

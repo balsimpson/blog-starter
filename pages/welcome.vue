@@ -59,23 +59,30 @@ const email = ref("")
 const password = ref("")
 
 const completeRegistration = async () => {
-  // login user
-  let res = await signInUser(email.value, config.TEMP_PASSWORD)
-  console.log('user', res);
-  // update display name
-  let res1 = await updateUserProfile(res.user, { displayName: name.value })
-  console.log('res1', res1);
-  // update password
-  let res2 = await updateUserPassword(res.user, password.value)
-  console.log('res2', res2);
+
+  try {
+    // login user
+    let res = await signInUser(email.value, config.TEMP_PASSWORD)
+    console.log('user', res);
+    // update display name
+    let res1 = await updateUserProfile({ displayName: name.value })
+    console.log('res1', res1);
+    // update password
+    let res2 = await updateUserPassword(res.user, password.value)
+    console.log('res2', res2);
+    navigateTo("/")
+  } catch (error) {
+    console.log(error)
+  }
   // create user record
   // let res = await addDocToFirestore("users", user)
 }
 
 onMounted(() => {
   email.value = route.query.email;
+  name.value = route.query.name;
   if (!email.value) {
-    navigateTo("/admin/signin")
+    navigateTo("/signin")
   }
 })
 </script>
