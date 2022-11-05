@@ -43,11 +43,11 @@
         </div>
       </div>
 
-      <pre>{{
+      <!-- <pre>{{
           invitedList
-      }}</pre>
+      }}</pre> -->
 
-      <div class="flex items-center justify-center px-4 py-3 mt-6 border rounded">
+      <div class="flex items-center justify-center p-6 mt-6 border rounded">
         <div v-if="!inviteRequestSuccess">
           <div class="text-xl font-bold">Send an invite</div>
           <p class="text-sm text-gray-500">
@@ -69,7 +69,8 @@
                 class="w-full px-3 py-1 text-base leading-8 transition-colors duration-200 ease-in-out border rounded outline-none text-stone-600 bg-stone-600 border-stone-600 bg-opacity-20 focus:bg-transparent focus:ring-1 placeholder-stone-400 focus:ring-teal-500 focus:border-teal-500 " />
             </div>
 
-            <button @click="sendInvite" class="px-3 py-1 mt-2 text-sm text-white capitalize bg-indigo-600 rounded-lg"
+            <button @click="sendInvite"
+              class="px-3 py-2 mt-2 text-sm font-semibold tracking-wide text-white capitalize bg-indigo-600 rounded"
               :class="[isRequestingInvite ? 'pointer-events-none opacity-50' : '', inviteName && inviteEmail ? '' : 'pointer-events-none opacity-50']">
               {{ inviteBtnText }}
             </button>
@@ -94,22 +95,14 @@
           to them. If you decline the request, a regret email will be sent.</p>
 
         <div class="mt-3 space-y-1">
-          <div class="flex flex-col items-center justify-between p-3 border rounded sm:flex-row">
-            <div>some@email.com</div>
+          <div v-for="item in inviteRequests"
+            class="flex flex-col items-center justify-between p-3 border rounded sm:flex-row">
+            <div class="font-semibold">{{ item.email }}</div>
             <div class="mt-2 space-x-4 text-sm sm:mt-0">
-              <button
+              <button @click.prevent="approveRequest(item.email)"
                 class="px-2 py-1 text-teal-600 transition border border-teal-600 rounded hover:bg-teal-600 hover:text-white">Approve</button>
-              <button
-                class="px-2 py-1 text-red-600 transition border border-red-600 rounded hover:bg-red-600 hover:text-white">Decline</button>
-            </div>
-          </div>
-          <div class="flex flex-col items-center justify-between p-3 border rounded sm:flex-row">
-            <div>some@email.com</div>
-            <div class="mt-2 space-x-4 text-sm sm:mt-0">
-              <button
-                class="px-2 py-1 text-teal-600 transition border border-teal-600 rounded hover:bg-teal-600 hover:text-white">Approve</button>
-              <button
-                class="px-2 py-1 text-red-600 transition border border-red-600 rounded hover:bg-red-600 hover:text-white">Decline</button>
+              <!-- <button
+                class="px-2 py-1 text-red-600 transition border border-red-600 rounded hover:bg-red-600 hover:text-white">Decline</button> -->
             </div>
           </div>
         </div>
@@ -124,7 +117,8 @@
           <div v-for="item in invitedList" class="flex items-center justify-between p-3 border rounded">
             <div>
               <div class="font-semibold">{{ item.email }}</div>
-              <div class="text-sm text-gray-500">Invite sent on {{ convertDate(item.invited_at) }}</div>
+              <div class="text-sm text-gray-500">Invite sent on {{ convertDate(item.invited_at || item.created_at) }}
+              </div>
             </div>
             <div class="px-3 py-1 text-indigo-600 capitalize transition border rounded">{{ item.status }}</div>
           </div>
@@ -154,6 +148,7 @@ const isRequestingInvite = ref(false);
 const inviteRequestSuccess = ref(false);
 
 const invitedList = ref([]);
+const inviteRequests = ref([])
 
 const signOut = async () => {
   // console.log("signing out");
@@ -209,6 +204,37 @@ const sendInvite = async () => {
 
 }
 
+const approveRequest = async (email) => {
+  // if approved, send invite mail
+  // create user
+  let user = await createUser(email, config.TEMP_PASSWORD)
+  console.log('user', user)
+  // add record to firestore
+  let res = await setDocToFirestore("invites", email, {
+    name: inviteName.value,
+    email: email,
+    status: "invited",
+    invited_by: name.value,
+    invited_at: serverTimestamp()
+  })
+
+  // send email through autocode
+  let response = await useFetch(`https://amused.autocode.dev/pullonath@dev/invite?email=${email}&name=${inviteName.value}`);
+
+  // refresh the list
+  let list = await getDocsFromFirestore("invites");
+  inviteRequests.value = list.filter(
+    (item) => item.status == "request"
+  );
+  invitedList.value = list.filter(
+    (item) => item.status == "invited"
+  );
+  
+  
+  // if rejected, send regret mail
+
+}
+
 const updateProfileImage = async (imgUrl) => {
   console.log(imgUrl)
   let res = await updateUserProfile({
@@ -222,7 +248,13 @@ onMounted(async () => {
   user.value = userCookie.value.providerData[0];
   name.value = user.value.displayName;
 
-  invitedList.value = await getDocsFromFirestore("invites");
+  let list = await getDocsFromFirestore("invites");
+  inviteRequests.value = list.filter(
+    (item) => item.status == "request"
+  );
+  invitedList.value = list.filter(
+    (item) => item.status == "invited" || item.status == "joined"
+  );
   // console.log(userCookie.value)
 })
 

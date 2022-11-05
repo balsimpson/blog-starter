@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- carousel -->
-    <div class="relative carousel h-[500px] mx-auto w-full">
+    <div class="relative carousel h-[400px] mx-auto w-full">
       <div class="h-full transition carousel-inner">
         <!-- left button -->
         <button @mouseover="pauseSlider()" @mouseout="startSlider()" ref="prevBtn" @click.prevent="prevBtnHandler"

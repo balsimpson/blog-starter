@@ -1,50 +1,19 @@
 <template>
   <div class="flex items-center justify-center min-h-screen bg-white">
-    <div class="w-full max-w-md px-2 py-12 mx-auto bg-transparent sm:px-12">
-      <div
-        class="mt-6 text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-teal-600 to-teal-800 ">
+    <div class="w-full max-w-sm px-2 py-12 mx-auto bg-transparent sm:px-12">
+      <!-- <div
+        class="text-3xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-br from-teal-600 to-teal-800 ">
         Sign in.
-      </div>
+      </div> -->
+
+      <img src="/logo.png" alt="pullonath logo" class="pb-3 mx-auto w-44">
 
 
-      <div class="flex items-center justify-center px-4 py-3 mt-6 border rounded h-44">
-        <div v-if="!inviteRequestSuccess">
-          <p class="text-sm text-gray-500">
-            You need an invitation to enter <span class="font-bold">Pullonath</span>. Enter your email address below to
-            request an invite.
-          </p>
-          <div>
-            <!-- <label
-            for="email"
-            class="block text-sm font-bold text-left text-gray-500"
-          >
-            Email
-          </label> -->
-            <div class="mt-2">
-              <input v-model="emailInvite" type="email" autocomplete="email" required="true" placeholder="john@doe.com"
-                class="w-full px-3 py-1 text-base leading-8 transition-colors duration-200 ease-in-out border rounded outline-none text-stone-600 bg-stone-600 border-stone-600 bg-opacity-20 focus:bg-transparent focus:ring-1 placeholder-stone-400 focus:ring-teal-500 focus:border-teal-500 " />
-            </div>
-
-            <button @click="requestInvite"
-              class="px-3 py-1 mt-2 text-sm text-white capitalize bg-indigo-600 rounded-lg"
-              :class="[isRequestingInvite ? 'pointer-events-none opacity-50': '']"
-              >request an invite</button>
-          </div>
-        </div>
-
-        <div v-else>
-          <p class="px-6 text-xl text-center text-teal-600">
-            We have received your request and will get back to you soon at <span class="font-bold">{{ emailInvite
-            }}</span>
-          </p>
-        </div>
-      </div>
-
-      <div class="w-full mx-auto mt-4">
-        <div class="relative w-full my-12 border-b">
+      <div class="w-full mx-auto">
+        <div class="relative w-full mt-4 mb-8 border-b">
           <div
             class="absolute px-2 font-bold leading-4 text-center translate-x-1/2 bg-white font-arvo -top-2 right-1/2">
-            Member's Entrance</div>
+            Member's Only</div>
         </div>
         <form @submit="login" class="space-y-4">
           <div>
@@ -52,7 +21,7 @@
               Email
             </label>
             <div class="mt-1">
-              <input v-model="emailInput" type="email" autocomplete="email" required="true" placeholder="john@doe.com"
+              <input v-model="emailInput" type="email" autocomplete="email" required="true" placeholder="you@email.com"
                 class="w-full px-3 py-1 text-base leading-8 transition-colors duration-200 ease-in-out border rounded outline-none text-stone-600 bg-stone-600 border-stone-600 bg-opacity-20 focus:bg-transparent focus:ring-1 placeholder-stone-400 focus:ring-teal-500 focus:border-teal-500 " />
             </div>
           </div>
@@ -88,6 +57,42 @@
           </div>
         </form>
       </div>
+
+
+      <div class="flex items-center justify-center h-48 p-6 mt-12 text-center rounded">
+        <div v-if="!inviteRequestSuccess">
+          <p v-if="inviteErrorMsg" class="text-sm text-rose-700">{{ inviteErrorMsg }}</p>
+          <p v-else class="text-sm text-gray-500">
+            You need an invitation to enter <span class="font-bold">Pullonath</span>. Enter your email address below to
+            request an invite.
+          </p>
+          <div>
+            <!-- <label
+            for="email"
+            class="block text-sm font-bold text-left text-gray-500"
+          >
+            Email
+          </label> -->
+            <div class="mt-2">
+              <input v-model="emailInvite" type="email" autocomplete="email" required="true"
+                placeholder="james@bonda.com"
+                class="w-full px-3 py-1 text-base leading-8 transition-colors duration-200 ease-in-out border rounded outline-none text-stone-600 bg-stone-600 border-stone-600 bg-opacity-20 focus:bg-transparent focus:ring-1 placeholder-stone-400 focus:ring-teal-500 focus:border-teal-500 " />
+            </div>
+
+            <button @click="requestInvite" class="px-3 py-2 mt-2 text-sm text-white capitalize bg-indigo-600 rounded"
+              :class="[isRequestingInvite ? 'pointer-events-none opacity-50' : '', emailInvite ? '' : 'pointer-events-none opacity-50']">request
+              an invite</button>
+          </div>
+        </div>
+
+        <div v-else>
+          <p class="px-6 text-xl text-center text-teal-600">
+            We have received your request and will get back to you soon at <span class="font-bold">{{ emailInvite
+            }}</span>
+          </p>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -108,6 +113,7 @@ const route = useRoute();
 const emailInvite = ref("");
 const isRequestingInvite = ref(false)
 const inviteRequestSuccess = ref(false)
+const inviteErrorMsg = ref("");
 
 const btnText = ref("Sign in");
 
@@ -130,36 +136,43 @@ const login = async () => {
   }
 };
 
-const errorMsg = (err) => {
-  console.log(typeof err);
-  if ((err = "user not found")) {
-  }
-};
-
 const requestInvite = async () => {
 
   if (emailInvite.value) {
     isRequestingInvite.value = true;
-    // add record to invited collection
-    let res = await setDocToFirestore("invites", emailInvite.value, {
-      email: emailInvite.value,
-      created_at: serverTimestamp(),
-      status: "request"
-    })
 
-    console.log(res);
-    if (res) {
-      console.log(res);
-      inviteRequestSuccess.value = true;
+    // check if user exists
+    let resUser = await getDocFromFirestore("invites", emailInvite.value);
+
+    if (resUser) {
+      isRequestingInvite.value = false;
+      inviteErrorMsg.value = "You have already requested an invite!"
+
+      setTimeout(() => {
+        inviteErrorMsg.value = ""
+      }, 3000);
     } else {
-      
+      // add record to invited collection
+      let res = await setDocToFirestore("invites", emailInvite.value, {
+        email: emailInvite.value,
+        created_at: serverTimestamp(),
+        status: "request"
+      })
+
+      // console.log(res);
+      if (res) {
+        console.log(res);
+      } else {
+        inviteRequestSuccess.value = true;
+      }
+
+      setTimeout(() => {
+        isRequestingInvite.value = false;
+        inviteRequestSuccess.value = false;
+        emailInvite.value = ""
+      }, 5000);
     }
 
-    setTimeout(() => {
-      isRequestingInvite.value = false;
-      inviteRequestSuccess.value = false;
-      emailInvite.value = ""
-    }, 5000);
   }
 }
 

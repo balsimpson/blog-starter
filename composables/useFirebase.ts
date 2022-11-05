@@ -78,16 +78,16 @@ export const updateUserProfile = async ({ displayName, photoURL }) => {
 
 /**
  * update user profile
- * @param {object} user - the user to update
- * @param {string} newPassword - the data to update
- * @example updateUserPassword(user, newPassword)
+ * @param {string} newPassword - the new password
+ * @example updateUserPassword(newPassword)
  */
-export const updateUserPassword = async (user: any, newPassword: string) => {
+export const updateUserPassword = async (newPassword: string) => {
   try {
-    let res = await updatePassword(user, newPassword);
+    const auth = getAuth();
+    let res = await updatePassword(auth.currentUser, newPassword);
     return res;
   } catch (error) {
-    console.log('updateUserProfile-error', error);
+    console.log('updateUserPassword-error', error);
     return error;
   }
 }

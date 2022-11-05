@@ -14,7 +14,7 @@
         <div class="flex flex-wrap items-center mt-3 space-x-2 sm:mt-0 md:ml-10">
 
           <NuxtLink to="/compose"
-            class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-800 rounded-md hover:bg-red-600">
+            class="inline-flex items-center px-4 py-2 text-sm font-medium text-white rounded-md bg-rose-900 hover:bg-rose-600">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
               stroke="currentColor" class="w-6 h-6">
               <path stroke-linecap="round" stroke-linejoin="round"
@@ -25,11 +25,11 @@
 
           <div v-if="user">
             <NuxtLink v-if="user.photoURL" to="/profile"
-            class="flex items-center justify-center w-10 h-10 font-bold text-white bg-white border-2 border-red-500 rounded-full">
+            class="flex items-center justify-center w-10 h-10 font-bold text-white bg-white border-2 rounded-full border-rose-500">
             <img :src="user.photoURL" alt="">
           </NuxtLink>
           <NuxtLink v-else to="/profile"
-            class="flex items-center justify-center w-10 h-10 font-bold text-white bg-red-500 rounded-full">
+            class="flex items-center justify-center w-10 h-10 font-bold text-white rounded-full bg-rose-500">
             {{ name.substring(0, 1) }}
           </NuxtLink>
           </div>

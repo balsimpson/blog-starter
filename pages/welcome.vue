@@ -32,6 +32,8 @@
             email && password
               ? 'bg-emerald-600'
               : 'bg-emerald-600 opacity-50 text-emerald-200 pointer-events-none',
+
+            isRegistering ? 'animate-pulse pointer-events-none opacity-70' : ''
           ]">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 mr-4">
             <path fill-rule="evenodd"
@@ -56,28 +58,35 @@ definePageMeta({
 const route = useRoute();
 const config = useRuntimeConfig();
 
+const user = ref();
+
 const name = ref("");
 const email = ref("")
 const password = ref("")
 
-const completeRegistration = async () => {
+const isRegistering = ref(false);
 
+const completeRegistration = async () => {
   try {
+
+    isRegistering.value = true;
     // get record details from invites collection
     // let invitedUser = await getDocFromFirestore("invites", email.value)
     // console.log('invited', invitedUser)
     // login user
-    let res = await signInUser(email.value, config.TEMP_PASSWORD)
-    console.log('user', res);
-    // update display name
+    // console.log(name.value, email.value)
+    // let res = await signInUser(email.value, config.TEMP_PASSWORD)
+    // console.log('user', res);
+    // // update display name
     let res1 = await updateUserProfile({ displayName: name.value })
-    console.log('res1', res1);
-    // update password
-    let res2 = await updateUserPassword(res.user, password.value)
-    console.log('res2', res2);
 
-    // update invites record
-    let resUpdate = await updateDocInFirestore("invites", email.value, {status: "Joined"})
+    // // update password
+    let res2 = await updateUserPassword(password.value)
+
+    // // update invites record
+    let resUpdate = await updateDocInFirestore("invites", email.value, {status: "joined"})
+
+    isRegistering.value = false;
     
     navigateTo("/")
   } catch (error) {
@@ -87,9 +96,20 @@ const completeRegistration = async () => {
   // let res = await addDocToFirestore("users", user)
 }
 
-onMounted(() => {
+onMounted(async() => {
   email.value = route.query.email;
   name.value = route.query.name;
+  
+  // check if invited
+  user.value = await getDocFromFirestore("invites", email.value);
+
+  if (user.value) {
+    let res = await signInUser(email.value, config.TEMP_PASSWORD)
+    console.log(res)
+  } else {
+    navigateTo("/signin")
+  }
+  
   if (!email.value) {
     navigateTo("/signin")
   }
