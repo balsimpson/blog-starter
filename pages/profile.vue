@@ -73,6 +73,7 @@
               :class="[isRequestingInvite ? 'pointer-events-none opacity-50' : '', inviteName && inviteEmail ? '' : 'pointer-events-none opacity-50']">
               {{ inviteBtnText }}
             </button>
+            <span class="ml-3 text-sm text-red-500">{{ inviteErrorMsg }}</span>
           </div>
         </div>
 
@@ -119,23 +120,13 @@
         <div class="pt-6 text-xl font-bold">Invited</div>
         <p class="text-sm">Status of invited people.</p>
 
-        <div class="space-y-1">
-          <div class="flex items-center justify-between p-3 border rounded">
+        <div class="mt-3 space-y-1">
+          <div v-for="item in invitedList" class="flex items-center justify-between p-3 border rounded">
             <div>
-              <div class="font-semibold">some@email.com</div>
-              <div class="text-sm text-gray-500">Invite sent on 21 Nov 2022</div>
+              <div class="font-semibold">{{ item.email }}</div>
+              <div class="text-sm text-gray-500">Invite sent on {{ convertDate(item.invited_at) }}</div>
             </div>
-            <div class="px-3 py-1 text-indigo-600 transition border rounded">Invited</div>
-          </div>
-
-          <div class="flex items-center justify-between p-3 border rounded">
-            <div>
-              <div class="font-semibold">some@email.com</div>
-              <div class="text-sm text-gray-500">Joined on 21 Nov 2022</div>
-            </div>
-            <div class="space-x-4 text-sm">
-              <div class="px-3 py-1 text-teal-600 transition border rounded">Joined</div>
-            </div>
+            <div class="px-3 py-1 text-indigo-600 capitalize transition border rounded">{{ item.status }}</div>
           </div>
 
         </div>
@@ -157,6 +148,7 @@ const userCookie = useCookie("userCookie")
 const inviteName = ref("");
 const inviteEmail = ref("");
 const inviteBtnText = ref("Send An Invite");
+const inviteErrorMsg = ref("");
 
 const isRequestingInvite = ref(false);
 const inviteRequestSuccess = ref(false);
@@ -174,34 +166,47 @@ const sendInvite = async () => {
   isRequestingInvite.value = true;
   inviteBtnText.value = "Sending..";
 
-  // create user
-  let user = await createUser(inviteEmail.value, config.TEMP_PASSWORD)
-  console.log('user', user)
-  // add record to firestore
-  let res = await addDocToFirestore("invites", {
-    name: inviteName.value,
-    email: inviteEmail.value,
-    status: "invited",
-    invited_by: name.value,
-    invited_at: serverTimestamp()
-  })
+  // check if user exists
+  let resUser = await getDocFromFirestore("invites", inviteEmail.value);
 
-  // send email through autocode
-  let response = await useFetch(`https://amused.autocode.dev/pullonath@dev/invite?email=${inviteEmail.value}&name=${inviteName.value}`);
+  if (resUser) {
+    isRequestingInvite.value = false;
+    inviteErrorMsg.value = "Already invited!"
+    inviteBtnText.value = "Send An Invite";
+    setTimeout(() => {
+      inviteErrorMsg.value = ""
+    }, 3000);
+  } else {
+    // create user
+    let user = await createUser(inviteEmail.value, config.TEMP_PASSWORD)
+    console.log('user', user)
+    // add record to firestore
+    let res = await setDocToFirestore("invites", inviteEmail.value, {
+      name: inviteName.value,
+      email: inviteEmail.value,
+      status: "invited",
+      invited_by: name.value,
+      invited_at: serverTimestamp()
+    })
+
+    // send email through autocode
+    let response = await useFetch(`https://amused.autocode.dev/pullonath@dev/invite?email=${inviteEmail.value}&name=${inviteName.value}`);
 
 
-  // change status to sent
-  inviteRequestSuccess.value = true;
-  inviteBtnText.value = "Send An Invite";
+    // change status to sent
+    inviteRequestSuccess.value = true;
+    inviteBtnText.value = "Send An Invite";
 
-  setTimeout(() => {
-    inviteRequestSuccess.value = false;
-    inviteName.value = ""
-    inviteEmail.value = ""
-  }, 4000);
+    setTimeout(() => {
+      inviteRequestSuccess.value = false;
+      inviteName.value = ""
+      inviteEmail.value = ""
+    }, 4000);
 
-  // reset values
-  isRequestingInvite.value = false;
+    // reset values
+    isRequestingInvite.value = false;
+  }
+
 }
 
 const updateProfileImage = async (imgUrl) => {

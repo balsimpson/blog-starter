@@ -46,6 +46,8 @@
 </template>
 
 <script setup>
+import { getDocFromServer } from '@firebase/firestore';
+
 
 definePageMeta({
   layout: false
@@ -61,6 +63,9 @@ const password = ref("")
 const completeRegistration = async () => {
 
   try {
+    // get record details from invites collection
+    // let invitedUser = await getDocFromFirestore("invites", email.value)
+    // console.log('invited', invitedUser)
     // login user
     let res = await signInUser(email.value, config.TEMP_PASSWORD)
     console.log('user', res);
@@ -70,6 +75,10 @@ const completeRegistration = async () => {
     // update password
     let res2 = await updateUserPassword(res.user, password.value)
     console.log('res2', res2);
+
+    // update invites record
+    let resUpdate = await updateDocInFirestore("invites", email.value, {status: "Joined"})
+    
     navigateTo("/")
   } catch (error) {
     console.log(error)
