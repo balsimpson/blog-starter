@@ -103,23 +103,23 @@ const { data: tagsuggestions } = await useAsyncData("tags", () =>
   queryContent("/tags").findOne()
 );
 useHead({
-  title: post.value.title,
+  title: () => post.value?.title,
   meta: [
     {
       name: "description",
-      content: post.value.description,
+      content: () => post.value?.description,
     },
     {
       property: "og:title",
-      content: post.value.title,
+      content: () => post.value?.title,
     },
     {
       property: "og:description",
-      content: post.value.description,
+      content: () => post.value?.description,
     },
     {
       property: "og:image",
-      content: post.value.image,
+      content: () => post.value?.image,
     },
     {
       property: "og:url",
@@ -131,19 +131,19 @@ useHead({
     },
     {
       name: "twitter:title",
-      content: post.value.title,
+      content: () => post.value?.title,
     },
     {
       name: "twitter:text:title",
-      content: post.value.title,
+      content: () => post.value?.title,
     },
     {
       name: "twitter:description",
-      content: post.value.description,
+      content: () => post.value?.description,
     },
     {
       name: "twitter:image",
-      content: post.value.image,
+      content: () => post.value?.image,
     },
   ],
 });
