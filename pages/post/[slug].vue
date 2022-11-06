@@ -2,9 +2,9 @@
   <div>
     <div v-if="post" class="flex flex-col h-full max-w-3xl p-5 mx-auto sm:px-12">
 
-      <Head>
+      <!-- <Head>
         <Title>{{ post.title }}</Title>
-      </Head>
+      </Head> -->
       <!-- <BreadCrumbs /> -->
 
       <div class="mb-4">
@@ -131,10 +131,6 @@ useHead({
     },
     {
       name: "twitter:title",
-      content: () => post.value?.title,
-    },
-    {
-      name: "twitter:text:title",
       content: () => post.value?.title,
     },
     {

@@ -178,7 +178,7 @@ const requestInvite = async () => {
 
 onMounted(() => {
   const userCookie = useCookie("userCookie");
-  if (userCookie) {
+  if (userCookie.value) {
     router.push("/");
   }
 });
