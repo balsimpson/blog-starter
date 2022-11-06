@@ -102,51 +102,51 @@ const isEditingPost = ref(false);
 const { data: tagsuggestions } = await useAsyncData("tags", () =>
   queryContent("/tags").findOne()
 );
-// useHead({
-//   title,
-//   meta: [
-//     {
-//       name: "description",
-//       content: description,
-//     },
-//     {
-//       property: "og:title",
-//       content: title,
-//     },
-//     {
-//       property: "og:description",
-//       content: description,
-//     },
-//     {
-//       property: "og:image",
-//       content: image,
-//     },
-//     {
-//       property: "og:url",
-//       content: ogUrl,
-//     },
-//     {
-//       name: "twitter:card",
-//       content: "summary_large_image",
-//     },
-//     {
-//       name: "twitter:title",
-//       content: title,
-//     },
-//     {
-//       name: "twitter:text:title",
-//       content: title,
-//     },
-//     {
-//       name: "twitter:description",
-//       content: description,
-//     },
-//     {
-//       name: "twitter:image",
-//       content: image,
-//     },
-//   ],
-// });
+useHead({
+  title: post.value.title,
+  meta: [
+    {
+      name: "description",
+      content: post.value.description,
+    },
+    {
+      property: "og:title",
+      content: post.value.title,
+    },
+    {
+      property: "og:description",
+      content: post.value.description,
+    },
+    {
+      property: "og:image",
+      content: post.value.image,
+    },
+    {
+      property: "og:url",
+      content: "https://pullonath.in/",
+    },
+    {
+      name: "twitter:card",
+      content: "summary_large_image",
+    },
+    {
+      name: "twitter:title",
+      content: post.value.title,
+    },
+    {
+      name: "twitter:text:title",
+      content: post.value.title,
+    },
+    {
+      name: "twitter:description",
+      content: post.value.description,
+    },
+    {
+      name: "twitter:image",
+      content: post.value.image,
+    },
+  ],
+});
 
 const user = ref("");
 const userCookie = useCookie("userCookie");
