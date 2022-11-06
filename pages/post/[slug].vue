@@ -90,7 +90,7 @@ import { serverTimestamp } from "firebase/firestore";
 
 definePageMeta({
   layout: "default",
-  middleware: ["auth"],
+  // middleware: ["auth"],
 });
 
 const route = useRoute();

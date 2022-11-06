@@ -19,7 +19,7 @@
 
 <script setup>
 definePageMeta({
-  middleware: ["auth"],
+  // middleware: ["auth"],
 });
 const { data: blog } = await useAsyncData("blog", () =>
   queryContent("/blog").findOne()
