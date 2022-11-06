@@ -27,7 +27,7 @@
             </div>
           </div>
 
-          <div v-if="userCookie.uid == post.author.uid">
+          <div v-if="userCookie?.uid == post.author.uid">
             <button v-if="isEditingPost" @click="publishChanges"
               class="flex items-center justify-center px-4 py-2 mb-6 text-sm font-medium text-center text-indigo-600 transition border-2 border-indigo-600 rounded-full cursor-pointer w-44 hover:bg-indigo-700 hover:text-white">
               <IconSave />
@@ -212,7 +212,7 @@ const publishChanges = async () => {
 }
 
 onMounted(async () => {
-  user.value = userCookie.value;
+  // user.value = userCookie.value;
   // console.log(userCookie.value)
   post.value = await getDocFromFirestoreWithSlug("posts", route.params.slug);
 

@@ -55,7 +55,7 @@ const userCookie = useCookie("userCookie")
 
 
 onMounted(async() => {
-  user.value = userCookie.value.providerData[0];
-  name.value = user.value.displayName;
+  user.value = userCookie.value?.providerData[0];
+  name.value = user.value?.displayName;
 })
 </script>
