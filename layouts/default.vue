@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col w-full h-screen">
+  <div class="flex flex-col w-full h-screen font-lato">
     <div class="relative px-4 py-6 sm:px-6 lg:px-8">
       <nav class="relative flex flex-col items-center justify-between max-w-4xl mx-auto sm:flex-row "
         aria-label="Global">
@@ -30,7 +30,10 @@
           </NuxtLink>
           <NuxtLink v-else to="/profile"
             class="flex items-center justify-center w-10 h-10 font-bold text-white rounded-full bg-rose-500">
-            {{ name.substring(0, 1) }}
+            <span v-if="name">
+              {{ name.substring(0, 1) }}
+            </span>
+            <span v-else><IconUser /></span>
           </NuxtLink>
           </div>
         </div>
@@ -45,7 +48,7 @@
 </template>
 
 <script setup>
-import { IconGithub } from "@iconify-prerendered/vue-bxl";
+import { IconUser } from "@iconify-prerendered/vue-bx";
 const user = ref("");
 const name = ref("");
 const userCookie = useCookie("userCookie")

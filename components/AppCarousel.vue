@@ -18,7 +18,7 @@
         <div class="relative h-full overflow-hidden border rounded-lg carousel-track border-emerald-500 bg-emerald-700"
         >
           <ul class="h-full transition duration-500 ease-in-out" ref="slidesElement">
-            <li @mouseover="pauseSlider()" @mouseout="startSlider()" @click="navigateTo('/blog/'+ item.slug)"
+            <li @mouseover="pauseSlider()" @mouseout="startSlider()" @click="navigateTo('/post/'+ item.slug)"
               v-for="(item, index) in items" class="absolute w-full h-full cursor-pointer" :id="index">
               <img v-if="item.image" loading="lazy" :src="item.image" :alt="item.alt" class="object-cover w-full h-full " />
               <div class="absolute z-20 max-w-md px-5 py-4 bg-black/80 bottom-12 left-12">

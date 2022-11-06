@@ -45,6 +45,7 @@
       </div>
     </div>
   </div>
+  
 </template>
 
 <script setup>
@@ -83,7 +84,7 @@ const docUpdated = (doc) => {
 };
 
 const saveDoc = async (status) => {
-  console.log(userCookie.value)
+  // console.log(userCookie.value)
   const { title, description, image } = getPostDetails(editorPost.value);
 
   if (status == "draft") {
@@ -116,12 +117,15 @@ const saveDoc = async (status) => {
     // console.log(res);
 
     if (res.type == "document") {
-      toast.success(data.title + " was saved!");
+      toast.success(data.title + " was published!");
+      setTimeout(() => {
+        navigateTo("/post/" + slug)
+      }, 2000);
     } else {
       toast.error("Post failed to save! - " + res);
     }
-    publishBtnText.value = "publish";
-    draftBtnText.value = "save draft";
+    publishBtnText.value = "Publish";
+    draftBtnText.value = "Save Draft";
   }
 };
 

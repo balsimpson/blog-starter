@@ -1,69 +1,80 @@
 <template>
-  <div v-if="post" class="flex flex-col h-full max-w-3xl p-5 mx-auto">
+  <div>
+    <div v-if="post" class="flex flex-col h-full max-w-3xl p-5 mx-auto sm:px-12">
 
-    <Head>
-      <Title>{{ post.title }}</Title>
-    </Head>
-    <!-- <BreadCrumbs /> -->
+      <Head>
+        <Title>{{ post.title }}</Title>
+      </Head>
+      <!-- <BreadCrumbs /> -->
 
-    <div class="mb-4">
+      <div class="mb-4">
 
-      <div class="flex justify-between">
-        <div class="flex items-center space-x-2">
-          <div to="/profile"
-            class="flex items-center justify-center w-10 h-10 font-bold text-white bg-red-500 rounded-full">
-            {{ post.author.name.substring(0, 1) }}
-          </div>
+        <div class="flex justify-between">
+          <div class="flex items-center space-x-2">
+            <div to="/profile"
+              class="flex items-center justify-center w-10 h-10 font-bold text-white bg-red-500 rounded-full">
+              {{ post.author.name.substring(0, 1) }}
+            </div>
 
-          <div>
-            <div v-if="post.author" class="font-bold">
-              {{ post.author.name }}
+            <div>
+              <div v-if="post.author" class="font-bold">
+                {{ post.author.name }}
 
-              <div v-if="post.published_at" class="text-sm italic font-normal">
-                {{ convertDate(post.published_at) }}
+                <div v-if="post.published_at" class="text-sm italic font-normal">
+                  {{ convertDate(post.published_at) }}
+                </div>
               </div>
             </div>
           </div>
+
+          <div v-if="userCookie.uid == post.author.uid">
+            <button v-if="isEditingPost" @click="publishChanges"
+              class="flex items-center justify-center px-4 py-2 mb-6 text-sm font-medium text-center text-indigo-600 transition border-2 border-indigo-600 rounded-full cursor-pointer w-44 hover:bg-indigo-700 hover:text-white">
+              <IconSave />
+
+              <span class="ml-3">Save Changes</span>
+            </button>
+            <button v-else @click="isEditingPost = !isEditingPost"
+              class="flex items-center justify-center px-4 py-2 mb-6 text-sm font-medium text-center text-indigo-600 transition border-2 border-indigo-600 rounded-full cursor-pointer w-44 hover:bg-indigo-700 hover:text-white">
+              <IconPencil />
+
+              <span class="ml-3">Edit Post</span>
+            </button>
+
+          </div>
+
         </div>
 
-        <button v-if="userCookie.uid == post.author.uid" @click="isEditingPost = !isEditingPost"
-          class="flex items-center justify-center px-4 py-2 mb-6 text-sm font-medium text-center text-indigo-600 transition border-2 border-indigo-600 rounded-full cursor-pointer w-44 hover:bg-indigo-700 hover:text-white">
-          <IconSave v-if="isEditingPost" />
-          <IconPencil v-else />
 
-          <span class="ml-3">{{ isEditingPost ? 'Save Changes' : 'Edit Post' }}</span>
-        </button>
+
+
+        <div class="flex space-x-3">
+
+          <div v-if="post.views" class="text-cyan-500">{{ post.views }} Views</div>
+        </div>
+
+        <div v-if="post.tags && !isEditingPost" class="space-x-1">
+          <TypeChip @clicked="redirectToTag(tag)" v-for="tag in post.tags" :title="tag" />
+        </div>
+
+        <div v-if="isEditingPost" class="py-2">
+          <TagInput :suggestions="tagsuggestions.items" :oldTags="post.tags" @updated="addTags" />
+        </div>
       </div>
+      <!-- <div v-if="post.lastUpdatedAt" class="text-cyan-600">
+  {{ convertDate(post.lastPublishedAt) }}
+</div> -->
 
 
 
+      <Tiptap v-if="isEditingPost" :content="post.content" @update="docUpdated" />
 
-      <div class="flex space-x-3">
+      <article v-else v-html="postHtml" class="flex-grow prose font-lato">
 
-        <div v-if="post.views" class="text-cyan-500">{{ post.views }} Views</div>
-      </div>
+      </article>
 
-      <div v-if="post.tags && !isEditingPost" class="space-x-1">
-        <TypeChip @clicked="redirectToTag(tag)" v-for="tag in post.tags" :title="tag" />
-      </div>
-
-      <div v-if="isEditingPost" class="py-2">
-        <TagInput :suggestions="tagsuggestions.items" :oldTags="post.tags" @updated="addTags" />
-      </div>
+      <!-- <AppFooter /> -->
     </div>
-    <!-- <div v-if="post.lastUpdatedAt" class="text-cyan-600">
-      {{ convertDate(post.lastPublishedAt) }}
-    </div> -->
-
-
-
-    <Tiptap v-if="isEditingPost" :content="post.content" />
-
-    <article v-else v-html="postHtml" class="flex-grow prose font-arvo">
-
-    </article>
-
-    <!-- <AppFooter /> -->
   </div>
 </template>
 
@@ -75,6 +86,7 @@ import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import Link from "@tiptap/extension-link";
 import Youtube from "@tiptap/extension-youtube";
+import { serverTimestamp } from "firebase/firestore";
 
 definePageMeta({
   layout: "default",
@@ -85,11 +97,6 @@ const route = useRoute();
 const post = ref(null);
 const postHtml = ref();
 const postTags = ref([]);
-
-const title = ref("");
-const image = ref("");
-const description = ref("")
-const ogUrl = ref("https://pullonath.in")
 
 const isEditingPost = ref(false);
 const { data: tagsuggestions } = await useAsyncData("tags", () =>
@@ -144,9 +151,15 @@ const { data: tagsuggestions } = await useAsyncData("tags", () =>
 const user = ref("");
 const userCookie = useCookie("userCookie");
 
+const editorPost = ref({});
+
 const redirectToTag = (tag) => {
   navigateTo("/tag/" + tag)
 }
+
+const docUpdated = (doc) => {
+  editorPost.value = doc;
+};
 
 const editPost = () => {
   isEditingPost.value = true;
@@ -157,14 +170,53 @@ const addTags = (tags) => {
   // console.log("tags", tags);
 };
 
+const publishChanges = async () => {
+
+  console.log(post.value)
+
+  const { title, description, image } = getPostDetails(editorPost.value);
+
+  const slug = createSlug(title);
+
+  const data = {
+    author: {
+      name: userCookie.value.providerData[0].displayName,
+      email: userCookie.value.providerData[0].email,
+      photo: userCookie.value.providerData[0].photoURL,
+      uid: userCookie.value.uid,
+    },
+    title,
+    description,
+    image,
+    slug,
+    content: editorPost.value,
+    tags: postTags.value,
+    updated_at: serverTimestamp(),
+  };
+
+  // update record in posts with new content
+  let res = await updateDocInFirestore("posts", post.value.id, data)
+
+  let pubDate = post.value.published_at;
+  post.value = data;
+  post.value.published_at = pubDate;
+
+  postHtml.value = generateHTML(post.value.content, [
+    StarterKit,
+    Image,
+    Youtube,
+    Link,
+  ]);
+
+  isEditingPost.value = !isEditingPost.value
+}
+
 onMounted(async () => {
   user.value = userCookie.value;
-  console.log(userCookie.value)
+  // console.log(userCookie.value)
   post.value = await getDocFromFirestoreWithSlug("posts", route.params.slug);
 
-  title.value = post.value.title;
-  description.value = post.value.description;
-  image.value = post.value.image;
+  editorPost.value = post.value.content;
 
   postHtml.value = generateHTML(post.value.content, [
     StarterKit,

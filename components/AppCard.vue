@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col h-full border rounded-lg border-cyan-500 ">
+  <div class="flex flex-col h-full border rounded-lg border-stone-500 font-lato">
     <NuxtImg
       v-if="image"
       :src="image"
