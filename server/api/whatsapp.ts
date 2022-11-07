@@ -1,19 +1,21 @@
 import type { IncomingMessage, ServerResponse } from "http";
 import { useBody } from 'h3'
 
-export default defineEventHandler( async (req, res, context) => {
-    console.log(req)
-    const query = getQuery(req)
+export default defineEventHandler( async (event) => {
+    console.log(event.res)
+    const query = getQuery(event)
     let mode = query["hub.mode"];
     let token = query["hub.verify_token"];
     let challenge = query["hub.challenge"];
     
     console.log(mode, token, challenge);
-    return {
-        headers: { 'Content-Type': 'application/json' },
-                        statusCode: 200,
-                        body: query["hub.challenge"]
-            };
+    // return {
+    //     headers: { 'Content-Type': 'application/json' },
+    //                     statusCode: 200,
+    //                     body: query["hub.challenge"]
+    //         };
+    // return event.res;
+    return { challenge, status: 200 };
 })
 
 // export default defineEventHandler((event) => {
