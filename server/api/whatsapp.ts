@@ -62,14 +62,14 @@ export default defineEventHandler( async (event) => {
         } else {
 
             return {
-                success: true
+                statusCode: 200
             }
         }
         } catch (error) {
             console.log(error);
             return {
-                success: true
-            } 
+                statusCode: 200
+            }
         }
 
         // if (status !== "sent" || status !== "delivered" || status !== "read") {
