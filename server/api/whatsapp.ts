@@ -1,7 +1,7 @@
 import type { IncomingMessage, ServerResponse } from "http";
 import { useBody } from 'h3'
 
-export default defineEventHandler( async (req, res) => {
+export default defineEventHandler( async (req, res, context) => {
     console.log(req)
     const query = getQuery(req)
     let mode = query["hub.mode"];
