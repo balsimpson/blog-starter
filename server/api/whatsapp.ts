@@ -34,7 +34,7 @@ export default defineEventHandler( async (event) => {
         let res = await fetch(url, {
             method: "POST",
             headers: {
-                authorization: `Bearer ${ACCESS_TOKEN}`,
+                'Authorization': `Bearer ${ACCESS_TOKEN}`,
                 'Content-Type': `application/json`
             },
             body: {
@@ -44,7 +44,8 @@ export default defineEventHandler( async (event) => {
                     // @ts-ignore
                     body: "Ack: " + msg_body 
                 },
-            }
+            },
+            credentials: "include"
         })
 
         console.log(res)
