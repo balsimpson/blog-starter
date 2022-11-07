@@ -3,9 +3,12 @@ import { useBody } from 'h3'
 
 
 export default defineEventHandler((event) => {
-    console.log(event)
+    const query = getQuery(event)
+    console.log(query)
     return {
-        api: 'works'
+        headers: { 'Content-Type': 'application/json' },
+        statusCode: 200,
+        // body: Buffer.from(challenge)
     }
 })
 
