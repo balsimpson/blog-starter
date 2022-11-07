@@ -5,16 +5,23 @@ import { useBody } from 'h3'
 //     res.statusCode(200)
 //     res.end('Legacy handler')
 //   }
+import { Configuration, OpenAIApi } from "openai"
 
 export default defineEventHandler( async (event) => {
-    // console.log(event)
     const config = useRuntimeConfig()
+    const configuration = new Configuration({
+        apiKey: config.OPENAI_KEY,
+      });
+    const openai = new OpenAIApi(configuration);
+    // console.log(event)
     const query = getQuery(event)
     const body = await readBody(event)
 
     let mode = query["hub.mode"];
     let token = query["hub.verify_token"];
     let challenge = query["hub.challenge"];
+
+    let generatedImg = "";
     
     console.log('body', JSON.stringify(body.entry[0].changes[0], null, 2));
     // console.log(query, mode, token, challenge);
@@ -38,6 +45,15 @@ export default defineEventHandler( async (event) => {
         msg_body = body.entry[0].changes[0].value.messages[0].text.body || "";
 
         if (from && msg_body) {
+
+            // get image from dall-e
+            const response = await openai.createImage({
+                prompt: msg_body,
+                n: 1,
+                size: "256x256",
+              });
+
+              generatedImg = response.data.data[0].url;
             // let status = body.entry[0].changes[0].value?.statuses[0]?.status || "";
             let url = `https://graph.facebook.com/v15.0/${phone_number_id}/messages`;
             let res = await fetch(url, {
@@ -49,10 +65,17 @@ export default defineEventHandler( async (event) => {
                 body: JSON.stringify({
                     messaging_product: "whatsapp",
                     to: from,
-                    text: {
-                        // @ts-ignore
-                        body: "Ack: " + msg_body
-                    },
+                    // text: {
+                    //     // @ts-ignore
+                    //     body: "Ack: " + msg_body
+                    // },
+                    "image": {
+                        "link": generatedImg,
+                        "provider": {
+                            "name" : "Dall-E"
+                        },
+                        "caption": msg_body
+                      }
                 }),
                 credentials: "include"
             })
