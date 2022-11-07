@@ -8,17 +8,21 @@ import { useBody } from 'h3'
 
 export default defineEventHandler( async (event) => {
     console.log(event)
+    const config = useRuntimeConfig()
     const query = getQuery(event)
+    const body = await readBody(event)
+
     let mode = query["hub.mode"];
     let token = query["hub.verify_token"];
     let challenge = query["hub.challenge"];
     
-    console.log(mode, token, challenge);
+    console.log('body', body);
+    console.log(query, mode, token, challenge);
 
     if (mode && token) {
         return challenge;
     } else {
-        
+
     }
     // return { challenge, status: 200 };
 })
