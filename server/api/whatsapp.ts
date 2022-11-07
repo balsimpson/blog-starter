@@ -7,19 +7,19 @@ import { useBody } from 'h3'
 //   }
 
 export default defineEventHandler( async (event) => {
-    console.log(event.res)
+    console.log(event)
     const query = getQuery(event)
     let mode = query["hub.mode"];
     let token = query["hub.verify_token"];
     let challenge = query["hub.challenge"];
     
     console.log(mode, token, challenge);
-    // return {
-    //     headers: { 'Content-Type': 'application/json' },
-    //                     statusCode: 200,
-    //                     body: query["hub.challenge"]
-    //         };
-    return challenge;
+
+    if (mode && token) {
+        return challenge;
+    } else {
+        
+    }
     // return { challenge, status: 200 };
 })
 
