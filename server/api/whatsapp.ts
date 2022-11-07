@@ -30,13 +30,13 @@ export default defineEventHandler( async (event) => {
         let msg_body = body.entry[0].changes[0].value.messages[0].text.body;
 
         let url = `https://graph.facebook.com/v15.0/${phone_number_id}/messages`;
-        let res = useFetch(url, {
+        let res = await fetch(url, {
             method: "POST",
             headers: {
                 authorization: `Bearer ${ACCESS_TOKEN}`,
                 'Content-Type': `application/json`
             },
-            params: {
+            body: {
                 messaging_product: "whatsapp",
                 to: from,
                 text: { body: "Ack: " + msg_body },
