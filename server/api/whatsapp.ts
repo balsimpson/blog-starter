@@ -44,7 +44,7 @@ export default defineEventHandler( async (event) => {
                     to: from,
                     text: {
                         // @ts-ignore
-                        body: "Ack: " + msg_body + " - " + status
+                        body: "Ack: " + msg_body + " - "
                     },
                 }),
                 credentials: "include"
