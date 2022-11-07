@@ -1,6 +1,11 @@
 import type { IncomingMessage, ServerResponse } from "http";
 import { useBody } from 'h3'
 
+// export default (req, res) => {
+//     res.statusCode(200)
+//     res.end('Legacy handler')
+//   }
+
 export default defineEventHandler( async (event) => {
     console.log(event.res)
     const query = getQuery(event)
@@ -14,8 +19,8 @@ export default defineEventHandler( async (event) => {
     //                     statusCode: 200,
     //                     body: query["hub.challenge"]
     //         };
-    // return event.res;
-    return { challenge, status: 200 };
+    return challenge;
+    // return { challenge, status: 200 };
 })
 
 // export default defineEventHandler((event) => {
