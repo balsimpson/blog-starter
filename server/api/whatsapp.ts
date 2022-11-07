@@ -31,7 +31,7 @@ export default defineEventHandler( async (event) => {
         let msg_body = body.entry[0].changes[0].value.messages[0].text.body || "";
 
         if (msg_body) {
-            let status = body.entry[0].changes[0].value.statuses[0].status;
+            let status = body.entry[0].changes[0].value?.statuses[0]?.status || "";
             let url = `https://graph.facebook.com/v15.0/${phone_number_id}/messages`;
             let res = await fetch(url, {
                 method: "POST",
