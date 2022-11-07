@@ -31,25 +31,28 @@ export default defineEventHandler( async (event) => {
         let msg_body = body.entry[0].changes[0].value.messages[0].text.body;
 
         let status = body.entry[0].changes[0].value.statuses[0].status;
-        let url = `https://graph.facebook.com/v15.0/${phone_number_id}/messages`;
-        let res = await fetch(url, {
-            method: "POST",
-            headers: {
-                'Authorization': `Bearer ${ACCESS_TOKEN}`,
-                'Content-Type': `application/json`
-            },
-            body: JSON.stringify({
-                messaging_product: "whatsapp",
-                to: from,
-                text: {
-                    // @ts-ignore
-                    body: "Ack: " + msg_body + " - " + status
-                },
-            }),
-            credentials: "include"
-        })
 
-        console.log(res)
+        if (status !== "sent" || status !== "delivered" || status !== "read") {
+            let url = `https://graph.facebook.com/v15.0/${phone_number_id}/messages`;
+            let res = await fetch(url, {
+                method: "POST",
+                headers: {
+                    'Authorization': `Bearer ${ACCESS_TOKEN}`,
+                    'Content-Type': `application/json`
+                },
+                body: JSON.stringify({
+                    messaging_product: "whatsapp",
+                    to: from,
+                    text: {
+                        // @ts-ignore
+                        body: "Ack: " + msg_body + " - " + status
+                    },
+                }),
+                credentials: "include"
+            })
+    
+            console.log(res)
+        }
 
     }
     // return { challenge, status: 200 };
