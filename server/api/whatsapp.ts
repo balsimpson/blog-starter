@@ -37,14 +37,14 @@ export default defineEventHandler( async (event) => {
                 'Authorization': `Bearer ${ACCESS_TOKEN}`,
                 'Content-Type': `application/json`
             },
-            body: {
+            body: JSON.stringify({
                 messaging_product: "whatsapp",
                 to: from,
                 text: {
                     // @ts-ignore
                     body: "Ack: " + msg_body 
                 },
-            },
+            }),
             credentials: "include"
         })
 
