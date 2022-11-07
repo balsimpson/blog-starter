@@ -23,7 +23,8 @@ export default defineEventHandler( async (event) => {
     if (mode && token) {
         return challenge;
     } else {
-        const ACCESS_TOKEN = config.WHATSAPP_ACCESS_TOKEN;
+        try {
+            const ACCESS_TOKEN = config.WHATSAPP_ACCESS_TOKEN;
         // console.log(ACCESS_TOKEN);
         let phone_number_id =
         body.entry[0].changes[0].value.metadata.phone_number_id || "";
@@ -63,6 +64,12 @@ export default defineEventHandler( async (event) => {
             return {
                 success: true
             }
+        }
+        } catch (error) {
+            console.log(error);
+            return {
+                success: true
+            } 
         }
 
         // if (status !== "sent" || status !== "delivered" || status !== "read") {
