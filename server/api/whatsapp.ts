@@ -16,9 +16,9 @@ export default defineEventHandler( async (event) => {
     let token = query["hub.verify_token"];
     let challenge = query["hub.challenge"];
     
-    console.log('body', JSON.stringify(body, null, 2));
+    console.log('body', JSON.stringify(body.entry[0].changes[0], null, 2));
     // console.log(query, mode, token, challenge);
-    console.log(query);
+    // console.log(query);
 
     if (mode && token) {
         return challenge;
@@ -31,7 +31,7 @@ export default defineEventHandler( async (event) => {
         let msg_body = body.entry[0].changes[0].value.messages[0].text.body || "";
 
         if (msg_body) {
-            let status = body.entry[0].changes[0].value?.statuses[0]?.status || "";
+            // let status = body.entry[0].changes[0].value?.statuses[0]?.status || "";
             let url = `https://graph.facebook.com/v15.0/${phone_number_id}/messages`;
             let res = await fetch(url, {
                 method: "POST",
@@ -52,8 +52,12 @@ export default defineEventHandler( async (event) => {
     
             console.log(res)
             return res;
-        }
+        } else {
 
+            return {
+                success: true
+            }
+        }
 
         // if (status !== "sent" || status !== "delivered" || status !== "read") {
         // }
