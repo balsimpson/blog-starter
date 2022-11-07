@@ -16,8 +16,9 @@ export default defineEventHandler( async (event) => {
     let token = query["hub.verify_token"];
     let challenge = query["hub.challenge"];
     
-    console.log('body', body);
-    console.log(query, mode, token, challenge);
+    console.log('body', JSON.stringify(body, null, 2));
+    // console.log(query, mode, token, challenge);
+    console.log(query);
 
     if (mode && token) {
         return challenge;
