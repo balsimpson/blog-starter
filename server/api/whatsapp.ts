@@ -24,6 +24,7 @@ export default defineEventHandler( async (event) => {
         return challenge;
     } else {
         const ACCESS_TOKEN = config.WHATSAPP_ACCESS_TOKEN;
+        console.log(ACCESS_TOKEN);
         let phone_number_id =
         body.entry[0].changes[0].value.metadata.phone_number_id;
         let from = body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
@@ -39,7 +40,10 @@ export default defineEventHandler( async (event) => {
             body: {
                 messaging_product: "whatsapp",
                 to: from,
-                text: { body: "Ack: " + msg_body },
+                text: {
+                    // @ts-ignore
+                    body: "Ack: " + msg_body 
+                },
             }
         })
 
