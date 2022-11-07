@@ -65,16 +65,13 @@ export default defineEventHandler( async (event) => {
                 body: JSON.stringify({
                     messaging_product: "whatsapp",
                     to: from,
+                    type: "image",
                     // text: {
                     //     // @ts-ignore
                     //     body: "Ack: " + msg_body
                     // },
                     "image": {
                         "link": generatedImg,
-                        "provider": {
-                            "name" : "Dall-E"
-                        },
-                        "caption": msg_body
                       }
                 }),
                 credentials: "include"
