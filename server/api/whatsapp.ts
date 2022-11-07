@@ -58,7 +58,9 @@ export default defineEventHandler( async (event) => {
             })
     
             console.log(res)
-            return res;
+            return {
+                statusCode: 200
+            }
         } else {
 
             return {
