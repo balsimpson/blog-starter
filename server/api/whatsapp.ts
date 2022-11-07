@@ -7,7 +7,7 @@ import { useBody } from 'h3'
 //   }
 
 export default defineEventHandler( async (event) => {
-    console.log(event)
+    // console.log(event)
     const config = useRuntimeConfig()
     const query = getQuery(event)
     const body = await readBody(event)
@@ -22,6 +22,27 @@ export default defineEventHandler( async (event) => {
     if (mode && token) {
         return challenge;
     } else {
+        const ACCESS_TOKEN = config.WHATSAPP_ACCESS_TOKEN;
+        let phone_number_id =
+        body.entry[0].changes[0].value.metadata.phone_number_id;
+        let from = body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
+        let msg_body = body.entry[0].changes[0].value.messages[0].text.body;
+
+        let url = `https://graph.facebook.com/v15.0/${phone_number_id}/messages`;
+        let res = useFetch(url, {
+            method: "POST",
+            headers: {
+                authorization: `Bearer ${ACCESS_TOKEN}`,
+                'Content-Type': `application/json`
+            },
+            params: {
+                messaging_product: "whatsapp",
+                to: from,
+                text: { body: "Ack: " + msg_body },
+            }
+        })
+
+        console.log(res)
 
     }
     // return { challenge, status: 200 };

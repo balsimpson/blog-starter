@@ -51,6 +51,7 @@ export default defineNuxtConfig({
     CLOUDINARY_NAME: process.env.CLOUDINARY_NAME,
     CLOUDINARY_UPLOAD_PRESET: process.env.CLOUDINARY_UPLOAD_PRESET,
     TEMP_PASSWORD: process.env.TEMP_PASSWORD,
+    WHATSAPP_ACCESS_TOKEN: process.env.WHATSAPP_ACCESS_TOKEN
   },
   privateRuntimeConfig: {
     FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
@@ -58,5 +59,6 @@ export default defineNuxtConfig({
     CLOUDINARY_NAME: process.env.CLOUDINARY_NAME,
     CLOUDINARY_UPLOAD_PRESET: process.env.CLOUDINARY_UPLOAD_PRESET,
     TEMP_PASSWORD: process.env.TEMP_PASSWORD,
+    WHATSAPP_ACCESS_TOKEN: process.env.WHATSAPP_ACCESS_TOKEN
   },
 })
