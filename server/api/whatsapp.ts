@@ -24,15 +24,14 @@ export default defineEventHandler( async (event) => {
         return challenge;
     } else {
         const ACCESS_TOKEN = config.WHATSAPP_ACCESS_TOKEN;
-        console.log(ACCESS_TOKEN);
+        // console.log(ACCESS_TOKEN);
         let phone_number_id =
         body.entry[0].changes[0].value.metadata.phone_number_id;
         let from = body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
-        let msg_body = body.entry[0].changes[0].value.messages[0].text.body;
+        let msg_body = body.entry[0].changes[0].value.messages[0].text.body || "";
 
-        let status = body.entry[0].changes[0].value.statuses[0].status;
-
-        if (status !== "sent" || status !== "delivered" || status !== "read") {
+        if (msg_body) {
+            let status = body.entry[0].changes[0].value.statuses[0].status;
             let url = `https://graph.facebook.com/v15.0/${phone_number_id}/messages`;
             let res = await fetch(url, {
                 method: "POST",
@@ -53,6 +52,10 @@ export default defineEventHandler( async (event) => {
     
             console.log(res)
         }
+
+
+        // if (status !== "sent" || status !== "delivered" || status !== "read") {
+        // }
 
     }
     // return { challenge, status: 200 };
