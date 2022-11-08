@@ -24,15 +24,23 @@ const getImage = async () => {
 
 
   try {
-    const response = await openai.createImage({
+    // const response = await openai.createImage({
+    //   prompt: prompt.value,
+    //   n: 1,
+    //   size: "256x256",
+    // });
+    const response = await openai.createCompletion({
+      model: "text-davinci-002",
       prompt: prompt.value,
-      n: 1,
-      size: "256x256",
+      // max_tokens: 6,
+      temperature: 0,
     });
+
+    console.log(response)
     // console.log(openai, configuration, config.OPENAI_KEY)
     // const response = await openai.listFiles();
-    generatedImg.value = response.data.data[0].url;
-    console.log(response.data.data[0].url)
+    // generatedImg.value = response.data.data[0].url;
+    // console.log(response.data.data[0].url)
   } catch (error) {
     console.log(error)
   }

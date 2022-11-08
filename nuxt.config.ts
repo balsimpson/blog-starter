@@ -1,4 +1,4 @@
-import { defineNuxtConfig } from 'nuxt'
+import { defineNuxtConfig } from 'nuxt/config'
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
@@ -53,6 +53,7 @@ export default defineNuxtConfig({
     TEMP_PASSWORD: process.env.TEMP_PASSWORD,
     WHATSAPP_ACCESS_TOKEN: process.env.WHATSAPP_ACCESS_TOKEN,
     OPENAI_KEY: process.env.OPENAI_KEY,
+    SENDGRID_KEY: process.env.SENDGRID_KEY,
   },
   privateRuntimeConfig: {
     FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
@@ -62,5 +63,6 @@ export default defineNuxtConfig({
     TEMP_PASSWORD: process.env.TEMP_PASSWORD,
     WHATSAPP_ACCESS_TOKEN: process.env.WHATSAPP_ACCESS_TOKEN,
     OPENAI_KEY: process.env.OPENAI_KEY,
+    SENDGRID_KEY: process.env.SENDGRID_KEY,
   },
 })
