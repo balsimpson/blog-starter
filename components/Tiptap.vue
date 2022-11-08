@@ -5,7 +5,7 @@
     class="flex flex-col w-full h-full rounded-none sm:rounded-lg"
   >
     <div
-      class="sticky top-0 z-20 flex justify-between text-neutral-500 focus:outline-none toolbar "
+      class="sticky top-0 z-20 flex justify-between border-b text-neutral-500 focus:outline-none toolbar "
     >
     <div class="flex flex-wrap items-center gap-2 p-4 ">
       <IconHeadingH1
@@ -486,8 +486,8 @@ const addLink = (url) => {
   border-right: 1px solid #b6b6b6;
   border-bottom: 1px solid #b6b6b6;
   /* background: #d6d6d6; */
-  border-radius: 0 0 10px 10px;
-  transition: color 0.3s ease-in-out;
+  border-radius: 0 0 0px 0px;
+  /* transition: color 0.3s ease-in-out; */
 }
 
 .prose h1 {
@@ -520,7 +520,7 @@ const addLink = (url) => {
   border-left: 1px solid #b6b6b6;
   border-right: 1px solid #b6b6b6;
   border-top: 1px solid #b6b6b6;
-  background: #000000;
+  background: #f4f4f4;
 }
 
 /* @media (prefers-color-scheme: dark) {

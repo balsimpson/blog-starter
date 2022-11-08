@@ -1,48 +1,34 @@
 <template>
-  <div class="flex flex-col h-full max-w-4xl mx-auto sm:mt-0 sm:p-4">
+  <div class="flex flex-col h-screen max-w-4xl mx-auto sm:mt-0 sm:p-4">
     
     <!-- <AppAutocomplete :options="tagsuggestions.items"/> -->
-    <div class="flex-grow w-full mx-auto mt-1 overflow-y-auto">
+    <div class="flex-grow w-full mx-auto overflow-y-auto">
       <Tiptap @update="docUpdated" />
     </div>
-    <div class="py-2">
-      <TagInput :suggestions="tagsuggestions.items" @updated="addTags" />
+    <div class="flex justify-end p-2 sm:w-44">
+      <button
+      @click.prevent="saveDoc('published')"
+      class="flex items-center justify-center w-full px-4 py-2 font-bold tracking-wide text-teal-800 transition bg-teal-500 border-2 border-teal-500 rounded cursor-pointer hover:bg-white hover:text-teal-500 sm:w-44"
+      :class="[
+        postDetails && postDetails.title
+          ? ''
+          : 'opacity-50 pointer-events-none',
+      ]"
+    >
+      <IconCloudUpload />
+      <span
+        class="ml-3"
+        :class="[
+          publishBtnText == 'Publishing...' ? 'pointer-events-none' : '',
+        ]"
+        >{{ publishBtnText }}</span
+      >
+    </button>
     </div>
+    <!-- <div class="py-2">
+      <TagInput :suggestions="tagsuggestions.items" @updated="addTags" />
+    </div> -->
     <div class="flex flex-col justify-center">
-      
-      <div class="flex justify-between pt-2 space-x-2 sm:space-x-8">
-        <button
-          @click.prevent="saveDoc('draft')"
-          class="inline-flex px-4 py-1 text-teal-500 border-2 border-teal-500 rounded "
-          :class="[
-            postDetails && postDetails.title
-              ? ''
-              : 'opacity-50 pointer-events-none',
-          ]"
-        >
-          <IconArchiveIn />
-          <span class="ml-3">{{draftBtnText}}</span>
-        </button>
-        <button
-          @click.prevent="saveDoc('published')"
-          class="inline-flex px-4 py-1 font-bold tracking-wide text-teal-800 transition bg-teal-500 border-2 border-teal-500 rounded cursor-pointer hover:bg-white hover:text-teal-500 "
-          :class="[
-            postDetails && postDetails.title
-              ? ''
-              : 'opacity-50 pointer-events-none',
-          ]"
-        >
-          <IconCloudUpload />
-          <span
-            class="ml-3"
-            :class="[
-              publishBtnText == 'Publishing...' ? 'pointer-events-none' : '',
-            ]"
-            >{{ publishBtnText }}</span
-          >
-        </button>
-        <!-- <pre>{{postDetails}}</pre> -->
-      </div>
     </div>
   </div>
   
@@ -53,7 +39,7 @@ import { IconCloudUpload, IconArchiveIn } from "@iconify-prerendered/vue-bx";
 import { serverTimestamp } from "firebase/firestore";
 import { useToast } from "vue-toastification";
 definePageMeta({
-  layout: "default",
+  layout: false,
   middleware: ["auth"],
   title: "Compose",
 });

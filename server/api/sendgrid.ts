@@ -19,7 +19,5 @@ export default defineEventHandler(async (event) => {
 		// subject: '🍩 Donuts, at the big donut 🍩',
 		templateId: "d-dcfbd2c5023546269903ccd2b74cc173",
 	};
-
-	console.log('msg', msg);
 	return await sgMail.send(msg);
 })

@@ -168,7 +168,7 @@ const addTags = (tags) => {
 
 const publishChanges = async () => {
 
-  console.log(post.value)
+  // console.log(post.value)
 
   const { title, description, image } = getPostDetails(editorPost.value);
 

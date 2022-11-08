@@ -172,20 +172,20 @@ const sendInvite = async () => {
       inviteErrorMsg.value = ""
     }, 3000);
   } else {
-    // create user
-    let user = await createUser(inviteEmail.value, config.TEMP_PASSWORD)
-    console.log('user', user)
-    // add record to firestore
-    let res = await setDocToFirestore("invites", inviteEmail.value, {
-      name: inviteName.value,
-      email: inviteEmail.value,
-      status: "invited",
-      invited_by: name.value,
-      invited_at: serverTimestamp()
-    })
+    // // create user
+    // let user = await createUser(inviteEmail.value, config.TEMP_PASSWORD)
+    // console.log('user', user)
+    // // add record to firestore
+    // let res = await setDocToFirestore("invites", inviteEmail.value, {
+    //   name: inviteName.value,
+    //   email: inviteEmail.value,
+    //   status: "invited",
+    //   invited_by: name.value,
+    //   invited_at: serverTimestamp()
+    // })
 
     // send email through autocode
-    let response = await useFetch(`https://amused.autocode.dev/pullonath@dev/invite?email=${inviteEmail.value}&name=${inviteName.value}`);
+    let response = await useFetch(`/api/sendgrid?email=${inviteEmail.value}&name=${inviteName.value}`);
 
 
     // change status to sent
@@ -219,7 +219,7 @@ const approveRequest = async (email) => {
   })
 
   // send email through autocode
-  let response = await useFetch(`https://amused.autocode.dev/pullonath@dev/invite?email=${email}&name=${inviteName.value}`);
+  let response = await useFetch(`/api/sendgrid?email=${inviteEmail.value}&name=${inviteName.value}`);
 
   // refresh the list
   let list = await getDocsFromFirestore("invites");
