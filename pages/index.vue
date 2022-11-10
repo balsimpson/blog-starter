@@ -13,6 +13,10 @@
           :slug="post.slug"
         />
       </div>
+
+      <div class="text-left text-stone-600">
+        <PostCard v-for="post in posts" :post="post"/>
+      </div>
     </div>
   </div>
 </template>

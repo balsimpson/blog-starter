@@ -9,7 +9,7 @@
 
       <div class="mb-4">
 
-        <div class="flex justify-between">
+        <div class="flex flex-col items-center justify-between sm:flex-row">
           <div class="flex items-center space-x-2">
             <div to="/profile"
               class="flex items-center justify-center w-10 h-10 font-bold text-white bg-red-500 rounded-full">
@@ -27,7 +27,7 @@
             </div>
           </div>
 
-          <div v-if="userCookie?.uid == post.author.uid">
+          <div v-if="userCookie?.uid == post.author.uid" class="mt-3 sm:mt-0">
             <button v-if="isEditingPost" @click="publishChanges"
               class="flex items-center justify-center px-4 py-2 mb-6 text-sm font-medium text-center text-indigo-600 transition border-2 border-indigo-600 rounded-full cursor-pointer w-44 hover:bg-indigo-700 hover:text-white">
               <IconSave />
@@ -213,7 +213,7 @@ onMounted(async () => {
   post.value = await getDocFromFirestoreWithSlug("posts", route.params.slug);
 
   editorPost.value = post.value.content;
-
+  postTags.value = post.value.tags;
   postHtml.value = generateHTML(post.value.content, [
     StarterKit,
     Image,

@@ -75,7 +75,7 @@ const completeRegistration = async () => {
     // console.log('invited', invitedUser)
     // login user
     // console.log(name.value, email.value)
-    // let res = await signInUser(email.value, config.TEMP_PASSWORD)
+    let res = await signInUser(email.value, config.TEMP_PASSWORD)
     // console.log('user', res);
     // // update display name
     let res1 = await updateUserProfile({ displayName: name.value })
@@ -103,15 +103,15 @@ onMounted(async() => {
   // check if invited
   user.value = await getDocFromFirestore("invites", email.value);
 
-  if (user.value) {
-    let res = await signInUser(email.value, config.TEMP_PASSWORD)
-    console.log(res)
-  } else {
-    navigateTo("/signin")
-  }
+  // if (user.value) {
+  //   let res = await signInUser(email.value, config.TEMP_PASSWORD)
+  //   console.log(res)
+  // } else {
+  //   navigateTo("/signin")
+  // }
   
-  if (!email.value) {
-    navigateTo("/signin")
-  }
+  // if (!email.value) {
+  //   navigateTo("/signin")
+  // }
 })
 </script>
