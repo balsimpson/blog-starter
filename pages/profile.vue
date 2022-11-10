@@ -173,16 +173,16 @@ const sendInvite = async () => {
     }, 3000);
   } else {
     // // create user
-    // let user = await createUser(inviteEmail.value, config.TEMP_PASSWORD)
+    let user = await createUser(inviteEmail.value, config.TEMP_PASSWORD)
     // console.log('user', user)
     // // add record to firestore
-    // let res = await setDocToFirestore("invites", inviteEmail.value, {
-    //   name: inviteName.value,
-    //   email: inviteEmail.value,
-    //   status: "invited",
-    //   invited_by: name.value,
-    //   invited_at: serverTimestamp()
-    // })
+    let res = await setDocToFirestore("invites", inviteEmail.value, {
+      name: inviteName.value,
+      email: inviteEmail.value,
+      status: "invited",
+      invited_by: name.value,
+      invited_at: serverTimestamp()
+    })
 
     // send email through autocode
     let response = await useFetch(`/api/sendgrid?email=${inviteEmail.value}&name=${inviteName.value}`);
