@@ -57,7 +57,7 @@ export default defineEventHandler( async (event) => {
             const prediction = await openai.createCompletion({
                 model: "text-davinci-003",
                 prompt: msg_body,
-                max_tokens: 7,
+                max_tokens: 100,
                 temperature: 0.3,
             });
 
