@@ -61,7 +61,7 @@ export default defineEventHandler( async (event) => {
                 temperature: 0.3,
             });
 
-            console.log(prediction)
+            console.log(JSON.stringify(prediction.data, null, 2))
 
             // generatedImg = response.data.data[0].url;
 
