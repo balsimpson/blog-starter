@@ -61,9 +61,11 @@ export default defineEventHandler( async (event) => {
                 temperature: 0.3,
             });
 
+            console.log(prediction)
+
             // generatedImg = response.data.data[0].url;
 
-            await sendMessage(prediction, from, ACCESS_TOKEN, phone_number_id)
+            // await sendMessage(prediction, from, ACCESS_TOKEN, phone_number_id)
 
             return {
                 statusCode: 200
