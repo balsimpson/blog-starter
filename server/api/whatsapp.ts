@@ -102,7 +102,7 @@ const sendMessage = async (msg, from, token, id) => {
             to: from,
             // type: "image",
             text: {
-                body: JSON.stringify(msg)
+                body: msg
             },
             // "image": {
             //     "link": generatedImg,
