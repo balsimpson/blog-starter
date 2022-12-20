@@ -50,6 +50,8 @@ export default defineEventHandler( async (event) => {
             if (msg_body.indexOf('/b') === 0) {
                 model = "text-babbage-001";
                 msg_body = msg_body.substring(3, msg_body.length-1)
+
+                console.log("msg_body", msg_body)
               } 
             // get image from dall-e
             // const response = await openai.createImage({
