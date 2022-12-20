@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from "http";
-import { useBody } from 'h3'
+// import { useBody } from 'h3'
 
 // export default (req, res) => {
 //     res.statusCode(200)
@@ -23,7 +23,7 @@ export default defineEventHandler( async (event) => {
 
     let generatedImg = "";
     
-    console.log('body', JSON.stringify(body.entry[0].changes[0], null, 2));
+    // console.log('body', JSON.stringify(body.entry[0].changes[0], null, 2));
     // console.log(query, mode, token, challenge);
     // console.log(query);
 
@@ -32,52 +32,39 @@ export default defineEventHandler( async (event) => {
     } else {
         try {
             const ACCESS_TOKEN = config.WHATSAPP_ACCESS_TOKEN;
-        // console.log(ACCESS_TOKEN);
-        let phone_number_id =
-        body.entry[0].changes[0].value.metadata.phone_number_id || "";
-        let from = ""
-        let msg_body = "";
+            // console.log(ACCESS_TOKEN);
+            let phone_number_id =
+            body.entry[0].changes[0].value.metadata.phone_number_id || "";
+            let from = ""
+            let msg_body = "";
 
-        if (body.entry[0].changes[0].value && body.entry[0].changes[0].value.messages[0]) {
-            from = body.entry[0].changes[0].value.messages[0].from || ""; // extract the phone number from the webhook payload
-        }
+            if (body.entry[0].changes[0].value && body.entry[0].changes[0].value.messages[0]) {
+                    from = body.entry[0].changes[0].value.messages[0].from || ""; // extract the phone number from the webhook payload
+            }
 
-        msg_body = body.entry[0].changes[0].value.messages[0].text.body || "";
+            msg_body = body.entry[0].changes[0].value.messages[0].text.body || "";
 
         if (from && msg_body) {
 
             // get image from dall-e
-            const response = await openai.createImage({
-                prompt: msg_body,
-                n: 1,
-                size: "256x256",
-              });
+            // const response = await openai.createImage({
+            //     prompt: msg_body,
+            //     n: 1,
+            //     size: "256x256",
+            //   });
 
-              generatedImg = response.data.data[0].url;
-            // let status = body.entry[0].changes[0].value?.statuses[0]?.status || "";
-            let url = `https://graph.facebook.com/v15.0/${phone_number_id}/messages`;
-            let res = await fetch(url, {
-                method: "POST",
-                headers: {
-                    'Authorization': `Bearer ${ACCESS_TOKEN}`,
-                    'Content-Type': `application/json`
-                },
-                body: JSON.stringify({
-                    messaging_product: "whatsapp",
-                    to: from,
-                    type: "image",
-                    // text: {
-                    //     // @ts-ignore
-                    //     body: "Ack: " + msg_body
-                    // },
-                    "image": {
-                        "link": generatedImg,
-                      }
-                }),
-                credentials: "include"
-            })
-    
-            console.log(res)
+            // get reply from GPT-3
+            const prediction = await openai.createCompletion({
+                model: "text-davinci-003",
+                prompt: msg_body,
+                max_tokens: 7,
+                temperature: 0.3,
+            });
+
+            // generatedImg = response.data.data[0].url;
+
+            await sendMessage(prediction, from, ACCESS_TOKEN, phone_number_id)
+
             return {
                 statusCode: 200
             }
@@ -86,12 +73,11 @@ export default defineEventHandler( async (event) => {
             return {
                 statusCode: 200
             }
-        }
-        } catch (error) {
+        }} catch (error) {
             console.log(error);
             return {
                 statusCode: 200
-            }
+          }
         }
 
         // if (status !== "sent" || status !== "delivered" || status !== "read") {
@@ -100,6 +86,29 @@ export default defineEventHandler( async (event) => {
     }
     // return { challenge, status: 200 };
 })
+
+const sendMessage = async (msg, from, token, id) => {
+    let url = `https://graph.facebook.com/v15.0/${id}/messages`;
+    let res = await fetch(url, {
+        method: "POST",
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': `application/json`
+        },
+        body: JSON.stringify({
+            messaging_product: "whatsapp",
+            to: from,
+            // type: "image",
+            text: {
+                body: JSON.stringify(msg)
+            },
+            // "image": {
+            //     "link": generatedImg,
+            //   }
+        }),
+        credentials: "include"
+    })
+}
 
 // export default defineEventHandler((event) => {
 //     const query = getQuery(event)

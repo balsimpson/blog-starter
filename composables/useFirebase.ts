@@ -60,12 +60,11 @@ export const signInUser = async (email: string, password: string) => {
 
 /**
  * update user profile
- * @param {object} data - the data to update
- * @param {string} data.displayName - display name to update
- * @param {string} data.photoURL - display name to update
- * @example updateUserProfile({ displayName: "name", photoURL: "someurl" })
+ * @param {string} displayName - display name to update
+ * @param {string} photoURL - display picture to update
+ * @example updateUserProfile("name", "someurl")
  */
-export const updateUserProfile = async ({ displayName, photoURL }) => {
+export const updateUserProfile = async (displayName: string, photoURL: string) => {
   try {
     const auth = getAuth();
     let res = await updateProfile(auth.currentUser, { displayName, photoURL });

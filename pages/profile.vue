@@ -237,9 +237,7 @@ const approveRequest = async (email) => {
 
 const updateProfileImage = async (imgUrl) => {
   console.log(imgUrl)
-  let res = await updateUserProfile({
-    photoURL: imgUrl
-  })
+  let res = await updateUserProfile(user.displayName, imgUrl)
 
   console.log(res)
 }

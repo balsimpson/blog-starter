@@ -74,7 +74,7 @@
             Email
           </label> -->
             <div class="mt-2">
-              <input v-model="emailInvite" type="email" autocomplete="email" required="true"
+              <input @keypress.enter="requestInvite" v-model="emailInvite" type="email" autocomplete="email" required="true"
                 placeholder="james@bonda.com"
                 class="w-full px-3 py-1 text-base leading-8 transition-colors duration-200 ease-in-out border rounded outline-none text-stone-600 bg-stone-600 border-stone-600 bg-opacity-20 focus:bg-transparent focus:ring-1 placeholder-stone-400 focus:ring-teal-500 focus:border-teal-500 " />
             </div>
