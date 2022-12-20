@@ -60,7 +60,7 @@ export default defineEventHandler( async (event) => {
 
             // get reply from GPT-3
             const prediction = await openai.createCompletion({
-                model: "text-davinci-003",
+                model: model,
                 prompt: msg_body,
                 max_tokens: 256,
                 temperature: 0.7,
