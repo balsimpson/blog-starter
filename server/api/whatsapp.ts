@@ -46,6 +46,11 @@ export default defineEventHandler( async (event) => {
 
         if (from && msg_body) {
 
+            let model = "text-davinci-003"
+            if (msg_body.indexOf('/b') === 0) {
+                model = "text-babbage-001";
+                msg_body = msg_body.substring(3, msg_body.length-1)
+              } 
             // get image from dall-e
             // const response = await openai.createImage({
             //     prompt: msg_body,
@@ -57,8 +62,8 @@ export default defineEventHandler( async (event) => {
             const prediction = await openai.createCompletion({
                 model: "text-davinci-003",
                 prompt: msg_body,
-                max_tokens: 100,
-                temperature: 0.3,
+                max_tokens: 256,
+                temperature: 0.7,
             });
 
             console.log(JSON.stringify(prediction.data, null, 2))
