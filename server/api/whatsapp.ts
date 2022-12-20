@@ -65,7 +65,7 @@ export default defineEventHandler( async (event) => {
 
             // generatedImg = response.data.data[0].url;
 
-            // await sendMessage(prediction, from, ACCESS_TOKEN, phone_number_id)
+            await sendMessage(prediction.data.choices[0].text, from, ACCESS_TOKEN, phone_number_id)
 
             return {
                 statusCode: 200
