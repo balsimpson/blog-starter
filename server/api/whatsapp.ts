@@ -51,7 +51,13 @@ export default defineEventHandler( async (event) => {
                 model = "text-babbage-001";
                 msg_body = msg_body.substring(3, msg_body.length-1)
 
-                console.log("msg_body", msg_body)
+                // console.log("msg_body", msg_body)
+              } 
+            if (msg_body.indexOf('/c') === 0) {
+                model = "text-curie-001";
+                msg_body = msg_body.substring(3, msg_body.length-1)
+
+                // console.log("msg_body", msg_body)
               } 
             // get image from dall-e
             // const response = await openai.createImage({
