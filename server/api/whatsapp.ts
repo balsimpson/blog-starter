@@ -46,19 +46,20 @@ export default defineEventHandler( async (event) => {
 
         if (from && msg_body) {
 
-            let model = "text-davinci-003"
-            if (msg_body.indexOf('/b') === 0) {
-                model = "text-babbage-001";
-                msg_body = msg_body.substring(3, msg_body.length-1)
+            let model = "text-embedding-ada-002"
+            // let model = "text-davinci-003"
+            // if (msg_body.indexOf('/b') === 0) {
+            //     model = "text-babbage-001";
+            //     msg_body = msg_body.substring(3, msg_body.length-1)
 
-                // console.log("msg_body", msg_body)
-              } 
-            if (msg_body.indexOf('/c') === 0) {
-                model = "text-curie-001";
-                msg_body = msg_body.substring(3, msg_body.length-1)
+            //     // console.log("msg_body", msg_body)
+            //   } 
+            // if (msg_body.indexOf('/c') === 0) {
+            //     model = "text-curie-001";
+            //     msg_body = msg_body.substring(3, msg_body.length-1)
 
-                // console.log("msg_body", msg_body)
-              } 
+            //     // console.log("msg_body", msg_body)
+            //   } 
             // get image from dall-e
             // const response = await openai.createImage({
             //     prompt: msg_body,
@@ -74,7 +75,7 @@ export default defineEventHandler( async (event) => {
                 temperature: 0.7,
             });
 
-            console.log(JSON.stringify(prediction.data, null, 2))
+            // console.log(JSON.stringify(prediction.data, null, 2))
 
             // generatedImg = response.data.data[0].url;
 
