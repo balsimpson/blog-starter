@@ -94,14 +94,9 @@ definePageMeta({
 });
 
 const route = useRoute();
-// const post = ref(null);
+const post = ref(null);
 const postHtml = ref();
 const postTags = ref([]);
-
-const { data: post, pending, error, refresh } = await useAsyncData(
-  'post',
-  () => $fetch('/api/post?slug='+route.params.slug)
-)
 
 const isEditingPost = ref(false);
 const { data: tagsuggestions } = await useAsyncData("tags", () =>
@@ -215,7 +210,7 @@ const publishChanges = async () => {
 onMounted(async () => {
   // user.value = userCookie.value;
   // console.log(userCookie.value)
-  // post.value = await getDocFromFirestoreWithSlug("posts", route.params.slug);
+  post.value = await getDocFromFirestoreWithSlug("posts", route.params.slug);
 
   editorPost.value = post.value.content;
   postTags.value = post.value.tags;
