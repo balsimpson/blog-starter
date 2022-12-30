@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="post" class="flex flex-col h-full max-w-3xl p-5 mx-auto sm:px-12">
+    <div v-if="post.author" class="flex flex-col h-full max-w-3xl p-5 mx-auto sm:px-12">
 
       <!-- <Head>
         <Title>{{ post.title }}</Title>
@@ -98,10 +98,13 @@ const route = useRoute();
 const postHtml = ref();
 const postTags = ref([]);
 
-const { data: post, pending, error, refresh } = await useAsyncData(
-  'post',
-  () => $fetch('/api/post?slug='+route.params.slug)
-)
+// const { data: post, pending, error, refresh } = await useAsyncData(
+//   'post',
+//   () => $fetch('/api/post?slug=' + route.params.slug)
+// )
+
+const { data: post } = await useFetch(`/api/post/?slug=${route.params.slug}`, { initialCache: false })
+
 
 const isEditingPost = ref(false);
 const { data: tagsuggestions } = await useAsyncData("tags", () =>
@@ -212,19 +215,33 @@ const publishChanges = async () => {
   isEditingPost.value = !isEditingPost.value
 }
 
+
+// watchEffect(() => {
+//   console.log(route.params.slug)
+//   refresh()
+
+
+// })
+
 onMounted(async () => {
+  // refresh()
   // user.value = userCookie.value;
   // console.log(userCookie.value)
   // post.value = await getDocFromFirestoreWithSlug("posts", route.params.slug);
 
-  editorPost.value = post.value.content;
-  postTags.value = post.value.tags;
-  postHtml.value = generateHTML(post.value.content, [
-    StarterKit,
-    Image,
-    Youtube,
-    Link,
-  ]);
+  if (post.value) {
+    editorPost.value = post.value.content;
+    postTags.value = post.value.tags;
+
+    postHtml.value = generateHTML(post.value.content, [
+      StarterKit,
+      Image,
+      Youtube,
+      Link,
+    ]);
+  } else {
+    console.log("else")
+  }
 });
 </script>
 

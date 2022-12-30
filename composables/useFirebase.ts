@@ -238,7 +238,7 @@ export const getOrderedDocsFromFirestore = async (collectionName: string, order:
 * @returns {Array} array of items
 * @example getDocsWithStatus('posts', 'published', 3, 'published_at')
 */
-export const getDocsWithStatus = async (collectionName: string, status: string, count: number, order: string = "published_at") => {
+export const getDocsWithStatus = async (collectionName: string, status: string, count: number = 0, order: string = "published_at") => {
   try {
     const db = getFirestore();
     let items = [];

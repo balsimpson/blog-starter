@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 // import { getAuth } from "firebase/auth";
-import { getDocsFromFirestore, getDocFromFirestore, getDocFromFirestoreWithSlug } from "~~/composables/useFirebase";
+import { getDocsFromFirestore, getDocFromFirestore, getDocFromFirestoreWithSlug, getDocsWithStatus } from "~~/composables/useFirebase";
 
 export default defineEventHandler(async (event) => {
   // const config = useRuntimeConfig()
@@ -16,10 +16,12 @@ export default defineEventHandler(async (event) => {
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
-  console.log(query.slug)
-  // get post
-  // @ts-ignore
-  return await getDocFromFirestoreWithSlug("posts", query.slug)
+  console.log(query)
 
-  // return post
+  if (query.slug) {
+    // @ts-ignore
+    return await getDocFromFirestoreWithSlug("posts", query.slug)
+  }
+
+  return getDocsWithStatus("posts", "published")
 })

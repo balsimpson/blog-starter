@@ -9,7 +9,8 @@
           :description="post.description"
           :image="post.image"
           :tags="post.tags"
-          :date="convertDate(post.published_at)"
+
+          :date="post.published_at"
           :slug="post.slug"
         />
       </div>
@@ -29,8 +30,15 @@ const { data: blog } = await useAsyncData("blog", () =>
   queryContent("/blog").findOne()
 );
 
-const posts = ref([]);
+const { data: posts, pending, error } = await useAsyncData(
+  'post',
+  () => $fetch('/api/post')
+)
+
+const refresh = () => refreshNuxtData('posts')
+
 onMounted(async () => {
-  posts.value = await getDocsWithStatus("posts", "published");
+  // refresh()
+  // posts.value = await getDocsWithStatus("posts", "published");
 });
 </script>
