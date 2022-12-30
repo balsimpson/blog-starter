@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
-  console.log(query)
+  // console.log(query)
 
   if (query.slug) {
     // @ts-ignore

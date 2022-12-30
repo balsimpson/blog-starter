@@ -10,7 +10,7 @@
           :image="post.image"
           :tags="post.tags"
 
-          :date="post.published_at"
+          :date="convertDate(post.published_at)"
           :slug="post.slug"
         />
       </div>

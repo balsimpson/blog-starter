@@ -1,51 +1,74 @@
 <template>
   <!-- <editor-content :editor="editor" /> -->
-  <div v-if="editor" class="flex flex-col w-full h-full rounded-none sm:rounded-lg">
-    <div class="sticky top-0 z-20 flex justify-between border-b text-neutral-500 focus:outline-none toolbar ">
-      <div class="flex flex-wrap items-center gap-2 p-4 ">
-        <IconHeadingH1 @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
-          class="w-8 h-8 cursor-pointer hover:text-teal-600" :class="[
-  editor.isActive('heading', { level: 1 })
-    ? 'is-active text-teal-600'
-    : 'text-stone-400',
-]" />
+  <div
+    v-if="editor"
+    class="flex flex-col w-full h-full rounded-none sm:rounded-lg"
+  >
+    <div
+      class="sticky top-0 z-20 flex justify-between border-b text-neutral-500 focus:outline-none toolbar "
+    >
+    <div class="flex flex-wrap items-center gap-2 p-4 ">
+      <IconHeadingH1
+        @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
+        class="w-8 h-8 cursor-pointer hover:text-teal-600"
+        :class="[
+          editor.isActive('heading', { level: 1 })
+            ? 'is-active text-teal-600'
+            : 'text-stone-400',
+        ]"
+      />
 
-        <IconHeadingH2 @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
-          class="w-8 h-8 cursor-pointer hover:text-teal-600" :class="[
-  editor.isActive('heading', { level: 2 })
-    ? 'is-active text-teal-600'
-    : 'text-neutral-400',
-]" />
+      <IconHeadingH2
+        @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
+        class="w-8 h-8 cursor-pointer hover:text-teal-600"
+        :class="[
+          editor.isActive('heading', { level: 2 })
+            ? 'is-active text-teal-600'
+            : 'text-neutral-400',
+        ]"
+      />
 
-        <IconHeadingH3 @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
-          class="w-8 h-8 cursor-pointer hover:text-teal-600" :class="[
-  editor.isActive('heading', { level: 3 })
-    ? 'is-active text-teal-600'
-    : 'text-neutral-400',
-]" />
+      <IconHeadingH3
+        @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
+        class="w-8 h-8 cursor-pointer hover:text-teal-600"
+        :class="[
+          editor.isActive('heading', { level: 3 })
+            ? 'is-active text-teal-600'
+            : 'text-neutral-400',
+        ]"
+      />
 
-        <IconBold @click="editor.chain().focus().toggleBold().run()" class="w-6 cursor-pointer hover:text-teal-600"
-          :class="[
-  editor.isActive('bold')
-    ? 'is-active text-teal-600'
-    : 'text-neutral-400',
-]" />
+      <IconBold
+        @click="editor.chain().focus().toggleBold().run()"
+        class="w-6 cursor-pointer hover:text-teal-600"
+        :class="[
+          editor.isActive('bold')
+            ? 'is-active text-teal-600'
+            : 'text-neutral-400',
+        ]"
+      />
 
-        <IconItalic @click="editor.chain().focus().toggleItalic().run()" class="w-6 cursor-pointer hover:text-teal-600"
-          :class="[
-  editor.isActive('italic')
-    ? 'is-active text-teal-600'
-    : 'text-neutral-400',
-]" />
+      <IconItalic
+        @click="editor.chain().focus().toggleItalic().run()"
+        class="w-6 cursor-pointer hover:text-teal-600"
+        :class="[
+          editor.isActive('italic')
+            ? 'is-active text-teal-600'
+            : 'text-neutral-400',
+        ]"
+      />
 
-        <IconQuote @click="editor.chain().focus().toggleBlockquote().run()"
-          class="w-6 cursor-pointer hover:text-teal-600" :class="[
-  editor.isActive('blockquote')
-    ? 'is-active text-teal-600'
-    : 'text-neutral-400',
-]" />
+      <IconQuote
+        @click="editor.chain().focus().toggleBlockquote().run()"
+        class="w-6 cursor-pointer hover:text-teal-600"
+        :class="[
+          editor.isActive('blockquote')
+            ? 'is-active text-teal-600'
+            : 'text-neutral-400',
+        ]"
+      />
 
-        <!-- <IconCode
+      <!-- <IconCode
         @click="editor.chain().focus().toggleCode().run()"
         class="w-8 cursor-pointer hover:text-teal-600"
         :class="[
@@ -55,7 +78,7 @@
         ]"
       /> -->
 
-        <!-- <IconCodeBlock
+      <!-- <IconCodeBlock
         @click="editor.chain().focus().toggleCodeBlock().run()"
         class="w-8 cursor-pointer hover:text-teal-600"
         :class="[
@@ -65,51 +88,80 @@
         ]"
       /> -->
 
-        <IconHighlight @click="editor.chain().focus().toggleHighlight().run()"
-          class="w-8 cursor-pointer hover:text-teal-600" :class="[
-  editor.isActive('highlight')
-    ? 'is-active text-teal-600'
-    : 'text-neutral-400',
-]" />
-        <IconAlignLeft @click="editor.chain().focus().setTextAlign('left').run()"
-          class="w-8 cursor-pointer hover:text-teal-600" :class="[
-  editor.isActive({ textAlign: 'left' })
-    ? 'is-active text-teal-600'
-    : 'text-neutral-400',
-]" />
-        <IconAlignMiddle @click="editor.chain().focus().setTextAlign('center').run()"
-          class="w-8 cursor-pointer hover:text-teal-600" :class="[
-  editor.isActive({ textAlign: 'center' })
-    ? 'is-active text-teal-600'
-    : 'text-neutral-400',
-]" />
-        <IconAlignRight @click="editor.chain().focus().setTextAlign('right').run()"
-          class="w-8 cursor-pointer hover:text-teal-600" :class="[
-  editor.isActive({ textAlign: 'right' })
-    ? 'is-active text-teal-600'
-    : 'text-neutral-400',
-]" />
+      <IconHighlight
+        @click="editor.chain().focus().toggleHighlight().run()"
+        class="w-8 cursor-pointer hover:text-teal-600"
+        :class="[
+          editor.isActive('highlight')
+            ? 'is-active text-teal-600'
+            : 'text-neutral-400',
+        ]"
+      />
+      <IconAlignLeft
+        @click="editor.chain().focus().setTextAlign('left').run()"
+        class="w-8 cursor-pointer hover:text-teal-600"
+        :class="[
+          editor.isActive({ textAlign: 'left' })
+            ? 'is-active text-teal-600'
+            : 'text-neutral-400',
+        ]"
+      />
+      <IconAlignMiddle
+        @click="editor.chain().focus().setTextAlign('center').run()"
+        class="w-8 cursor-pointer hover:text-teal-600"
+        :class="[
+          editor.isActive({ textAlign: 'center' })
+            ? 'is-active text-teal-600'
+            : 'text-neutral-400',
+        ]"
+      />
+      <IconAlignRight
+        @click="editor.chain().focus().setTextAlign('right').run()"
+        class="w-8 cursor-pointer hover:text-teal-600"
+        :class="[
+          editor.isActive({ textAlign: 'right' })
+            ? 'is-active text-teal-600'
+            : 'text-neutral-400',
+        ]"
+      />
 
-        <IconYoutube @click="showAddYTLink = !showAddYTLink" class="relative w-8 h-8 cursor-pointer hover:text-teal-600"
+      <IconYoutube
+        @click="showAddYTLink = !showAddYTLink"
+        class="relative w-8 h-8 cursor-pointer hover:text-teal-600"
+        :class="[
+          showAddYTLink ? 'is-active text-teal-600' : 'text-neutral-400',
+        ]"
+      />
+
+      <label
+        class="flex flex-col items-center w-8 transition-colors cursor-pointer "
+        :class="[isUploadingImage ? 'animate-pulse': '']"
+      >
+        <IconImageAdd
           :class="[
-  showAddYTLink ? 'is-active text-teal-600' : 'text-neutral-400',
-]" />
+            editor.isActive('image')
+              ? 'is-active text-teal-600'
+              : 'text-neutral-400 hover:text-teal-500',
+          ]"
+        />
+        <input
+          @change="uploadImage"
+          type="file"
+          accept=".jpeg,.jpg,.png,image/jpeg,image/png,image/gif"
+          class="sr-only"
+        />
+      </label>
 
-        <label class="flex flex-col items-center w-8 transition-colors cursor-pointer "
-          :class="[isUploadingImage ? 'animate-pulse' : '']">
-          <IconImageAdd :class="[
-  editor.isActive('image')
-    ? 'is-active text-teal-600'
-    : 'text-neutral-400 hover:text-teal-500',
-]" />
-          <input @change="uploadImage" type="file" accept=".jpeg,.jpg,.png,image/jpeg,image/png,image/gif"
-            class="sr-only" />
-        </label>
-
-        <IconUndo @click="editor.chain().focus().undo().run()" class="w-8 h-8 cursor-pointer hover:text-teal-500" />
-        <IconRedo @click="editor.chain().focus().redo().run()" class="w-8 h-8 cursor-pointer hover:text-teal-500" />
-      </div>
-
+      <IconUndo
+        @click="editor.chain().focus().undo().run()"
+        class="w-8 h-8 cursor-pointer hover:text-teal-500"
+      />
+      <IconRedo
+        @click="editor.chain().focus().redo().run()"
+        class="w-8 h-8 cursor-pointer hover:text-teal-500"
+      />
+    </div>
+    
       <!-- <div class="flex flex-col items-center justify-around p-4 space-y-2">
         <div class="flex justify-between space-x-3">
           
@@ -126,30 +178,55 @@
     <div class="relative flex-grow w-full h-full overflow-y-scroll">
       <editor-content :editor="editor" class="h-full" />
       <!-- add youtube link -->
-      <div v-if="showAddYTLink" @keydown.esc="showAddYTLink = !showAddYTLink"
-        class="absolute top-0 z-10 w-full p-2 pb-4 bg-white border shadow-xl border-stone-300 " tabindex="0">
+      <div
+        v-if="showAddYTLink"
+        @keydown.esc="showAddYTLink = !showAddYTLink"
+        class="absolute top-0 z-10 w-full p-2 pb-4 bg-white border shadow-xl border-stone-300 "
+        tabindex="0"
+      >
         <div class="relative px-2">
-          <label class="text-sm text-stone-500">Paste a YouTube Link
+          <label class="text-sm text-stone-500"
+            >Paste a YouTube Link
 
-            <input v-model="ytLink" v-focus type="url" class="form-input "
-              placeholder="https://www.youtube.com/watch?v=aRx4-fsJ5uE" />
-            <button @click="addVideo"
-              class="absolute px-3 py-1 text-sm font-semibold uppercase bg-white rounded top-1/2 right-5 text-stone-600">
+            <input
+              v-model="ytLink"
+              v-focus
+              type="url"
+              class="form-input "
+              placeholder="https://www.youtube.com/watch?v=aRx4-fsJ5uE"
+            />
+            <button
+              @click="addVideo"
+              class="absolute px-3 py-1 text-sm font-semibold uppercase bg-white rounded top-1/2 right-5 text-stone-600"
+            >
               add
             </button>
           </label>
         </div>
       </div>
       <!-- add link -->
-      <div v-if="showAddLink" @keydown.esc="showAddLink = !showAddLink"
-        class="absolute top-0 z-10 w-full p-2 pb-4 bg-white border shadow-xl border-stone-700 " tabindex="0">
+      <div
+        v-if="showAddLink"
+        @keydown.esc="showAddLink = !showAddLink"
+        class="absolute top-0 z-10 w-full p-2 pb-4 bg-white border shadow-xl border-stone-700 "
+        tabindex="0"
+      >
         <div class="relative px-2">
-          <label class="text-sm text-stone-500">Paste a URL
+          <label class="text-sm text-stone-500"
+            >Paste a URL
 
-            <input v-model="urlLink" v-focus type="url" class="form-input" placeholder="https://www.example.com/" />
-            <button @click="addLink"
+            <input
+              v-model="urlLink"
+              v-focus
+              type="url"
+              class="form-input"
+              placeholder="https://www.example.com/"
+            />
+            <button
+              @click="addLink"
               class="absolute px-3 py-1 text-sm font-semibold uppercase bg-white rounded top-1/2 right-5 "
-              :class="{ 'is-active': editor.isActive('link') }">
+              :class="{ 'is-active': editor.isActive('link') }"
+            >
               add
             </button>
           </label>
@@ -160,34 +237,55 @@
     <div class="relative">
       <bubble-menu
         class="flex items-center px-2 py-1 space-x-2 bg-black border rounded shadow border-stone-300 dark:border-stone-700 "
-        :editor="editor" :tippy-options="{ duration: 100 }" v-if="editor">
-        <IconHeadingH2 @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
-          class="cursor-pointer hover:text-teal-500" :class="[
-  editor.isActive('heading', { level: 2 })
-    ? 'is-active text-teal-500'
-    : 'text-neutral-400',
-]" />
-        <IconBold @click="editor.chain().focus().toggleBold().run()" class="cursor-pointer hover:text-teal-500" :class="[
-  editor.isActive('bold')
-    ? 'is-active text-teal-500'
-    : 'text-neutral-400',
-]" />
-        <IconCode @click="editor.chain().focus().toggleCode().run()" class="cursor-pointer hover:text-teal-500" :class="[
-  editor.isActive('code')
-    ? 'is-active text-teal-500'
-    : 'text-neutral-400',
-]" />
-        <IconHighlight @click="editor.chain().focus().toggleHighlight().run()"
-          class="cursor-pointer hover:text-teal-500" :class="[
-  editor.isActive('highlight')
-    ? 'is-active text-teal-500'
-    : 'text-neutral-400',
-]" />
-        <IconLink @click="addLink" class="cursor-pointer hover:text-teal-500" :class="[
-  editor.isActive('link')
-    ? 'is-active text-teal-500'
-    : 'text-neutral-400',
-]" />
+        :editor="editor"
+        :tippy-options="{ duration: 100 }"
+        v-if="editor"
+      >
+        <IconHeadingH2
+          @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
+          class="cursor-pointer hover:text-teal-500"
+          :class="[
+            editor.isActive('heading', { level: 2 })
+              ? 'is-active text-teal-500'
+              : 'text-neutral-400',
+          ]"
+        />
+        <IconBold
+          @click="editor.chain().focus().toggleBold().run()"
+          class="cursor-pointer hover:text-teal-500"
+          :class="[
+            editor.isActive('bold')
+              ? 'is-active text-teal-500'
+              : 'text-neutral-400',
+          ]"
+        />
+        <IconCode
+          @click="editor.chain().focus().toggleCode().run()"
+          class="cursor-pointer hover:text-teal-500"
+          :class="[
+            editor.isActive('code')
+              ? 'is-active text-teal-500'
+              : 'text-neutral-400',
+          ]"
+        />
+        <IconHighlight
+          @click="editor.chain().focus().toggleHighlight().run()"
+          class="cursor-pointer hover:text-teal-500"
+          :class="[
+            editor.isActive('highlight')
+              ? 'is-active text-teal-500'
+              : 'text-neutral-400',
+          ]"
+        />
+        <IconLink
+          @click="addLink"
+          class="cursor-pointer hover:text-teal-500"
+          :class="[
+            editor.isActive('link')
+              ? 'is-active text-teal-500'
+              : 'text-neutral-400',
+          ]"
+        />
       </bubble-menu>
     </div>
 
@@ -249,25 +347,25 @@ const vFocus = {
   mounted: (el) => el.focus(),
 };
 
-// const CustomDocument = Document.extend({
-//   // content: "heading block*",
-//   content: "block*",
-// });
+const CustomDocument = Document.extend({
+  content: "heading block*",
+  // content: "block*",
+});
 
 const editor = useEditor({
   extensions: [
-    // CustomDocument,
+    CustomDocument,
     StarterKit.configure({
-      // document: false,
+      document: false,
       heading: {
         levels: [1, 2, 3],
       }
     }),
     Image,
     Link.configure({
-      openOnClick: true,
+      openOnClick: false,
     }),
-
+    
     TextAlign.configure({
       types: ["heading", "paragraph"],
     }),
@@ -275,13 +373,21 @@ const editor = useEditor({
     CharacterCount,
     Youtube,
     Placeholder.configure({
-      placeholder: 'Write something...',
-    })
+      emptyEditorClass: "is-editor-empty",
+      placeholder: ({ node }) => {
+        // return "Write something …" + node.type.name;
+        if (node.type.name == "heading") {
+          return "What’s the title of the post?";
+        } else {
+          return "Write something …";
+        }
+      },
+    }),
   ],
   editorProps: {
     attributes: {
       class:
-        "prose lg:prose-lg xl:prose-2xl focus:outline-none p-5 overflow-y-scroll dark:bg-stone-800",
+        "prose prose-sm sm:prose lg:prose-lg xl:prose-2xl focus:outline-none p-5 overflow-y-scroll dark:bg-stone-800",
     },
   },
   content: props.content,
@@ -301,7 +407,7 @@ const readData = (f) => {
 
 const uploadImage = async (event) => {
   isUploadingImage.value = true;
-
+  
   let file = event.target.files[0];
   // const data = await readData(file);
 
@@ -386,15 +492,6 @@ const addLink = (url) => {
   /* transition: color 0.3s ease-in-out; */
 }
 
-/* Placeholder (at the top) */
-.ProseMirror p.is-editor-empty:first-child::before {
-  content: attr(data-placeholder);
-  float: left;
-  color: #adb5bd;
-  pointer-events: none;
-  height: 0;
-}
-
 .prose h1 {
   margin-top: 0.25em;
   margin-bottom: 0.25em;
@@ -437,14 +534,14 @@ const addLink = (url) => {
   }
 } */
 
-/* .prose :where(h1):not(:where([class~="not-prose"] *)) {
+.prose :where(h1):not(:where([class~="not-prose"] *)) {
   color: #424242;
   font-weight: 800;
   font-size: 2.25em;
   margin-top: 0;
   margin-bottom: 0.8888889em;
   line-height: 1.1111111;
-} */
+}
 
 /* @media (prefers-color-scheme: dark) {
   .prose :where(h1):not(:where([class~="not-prose"] *)) {
@@ -458,22 +555,22 @@ const addLink = (url) => {
 } */
 
 /* Placeholder (at the top) */
-/* .ProseMirror is-empty:first::before {
+.ProseMirror is-empty:first::before {
   content: attr(data-placeholder);
   float: left;
   color: #c2c3c4;
   pointer-events: none;
   height: 0;
-} */
+}
 
 /* Placeholder (on every new line) */
-/* .ProseMirror h1.is-empty::before {
+.ProseMirror h1.is-empty::before {
   content: attr(data-placeholder);
   float: left;
   color: #d2d2d2;
   pointer-events: none;
   height: 0;
-} */
+}
 
 /* @media (prefers-color-scheme: dark) {
   .ProseMirror h1.is-empty::before {

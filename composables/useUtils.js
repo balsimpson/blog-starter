@@ -97,30 +97,35 @@ export const getYTLink = (link) => {
   }
 }
 
-export const convertDate = (d) => {
-  const newDate = new Date(d.seconds * 1000);
-  let day = newDate.getDate();
-  let m = newDate.getMonth();
-  let y = newDate.getFullYear();
-
-  let h = newDate.getHours();
-  let min = newDate.getMinutes()
-
-  let months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-
-  // return day + " " + months[m] + " " + y + " " + h + ":" + min;
-  return day + " " + months[m] + " " + y;
-};
+// export const convertDate = (d) => {
+  //   const newDate = new Date(d.seconds * 1000);
+  //   let day = newDate.getDate();
+  //   let m = newDate.getMonth();
+  //   let y = newDate.getFullYear();
+  
+  //   let h = newDate.getHours();
+  //   let min = newDate.getMinutes()
+  
+  //   let months = [
+    //     "Jan",
+    //     "Feb",
+    //     "Mar",
+    //     "Apr",
+    //     "May",
+    //     "Jun",
+    //     "Jul",
+    //     "Aug",
+    //     "Sep",
+    //     "Oct",
+    //     "Nov",
+    //     "Dec",
+    //   ];
+    
+    //   // return day + " " + months[m] + " " + y + " " + h + ":" + min;
+    //   return day + " " + months[m] + " " + y;
+    // };
+    
+    export const convertDate = (d) => {
+      const date = new Date(d.seconds * 1000);
+      return date.toLocaleDateString("en-US", {day: 'numeric', month: 'short', year: 'numeric'})
+}

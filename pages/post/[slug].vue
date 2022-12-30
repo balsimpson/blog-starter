@@ -28,12 +28,15 @@
           </div>
 
           <div v-if="userCookie?.uid == post.author.uid" class="mt-3 sm:mt-0">
-            <button v-if="isEditingPost" @click="publishChanges"
-              class="flex items-center justify-center px-4 py-2 mb-6 text-sm font-medium text-center text-indigo-600 transition border-2 border-indigo-600 rounded-full cursor-pointer w-44 hover:bg-indigo-700 hover:text-white">
-              <IconSave />
-
-              <span class="ml-3">Save Changes</span>
-            </button>
+            <div v-if="isEditingPost" >
+              <button  @click="isEditingPost = !isEditingPost">Cancel</button>
+              <button @click="publishChanges"
+                class="flex items-center justify-center px-4 py-2 mb-6 text-sm font-medium text-center text-indigo-600 transition border-2 border-indigo-600 rounded-full cursor-pointer w-44 hover:bg-indigo-700 hover:text-white">
+                <IconSave />
+  
+                <span class="ml-3">Save Changes</span>
+              </button>
+            </div>
             <button v-else @click="isEditingPost = !isEditingPost"
               class="flex items-center justify-center px-4 py-2 mb-6 text-sm font-medium text-center text-indigo-600 transition border-2 border-indigo-600 rounded-full cursor-pointer w-44 hover:bg-indigo-700 hover:text-white">
               <IconPencil />
@@ -248,5 +251,9 @@ onMounted(async () => {
 <style>
 article img {
   border-radius: .25em;
+}
+
+article iframe {
+  width: 100%;
 }
 </style>
