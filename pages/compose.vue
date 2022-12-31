@@ -1,6 +1,9 @@
 <template>
   <div class="flex flex-col h-screen max-w-4xl mx-auto sm:mt-0 sm:p-4">
-    
+    <div class="p-5">
+      <textarea  class="w-full text-4xl font-bold bg-transparent focus:outline-none" placeholder="What is the title?"></textarea>
+    <TagInput :suggestions="tagsuggestions.items" @updated="addTags" />
+    </div>
     <!-- <AppAutocomplete :options="tagsuggestions.items"/> -->
     <div class="flex-grow w-full mx-auto overflow-y-auto">
       <Tiptap @update="docUpdated" />
@@ -26,7 +29,7 @@
     </button>
     </div>
     <!-- <div class="py-2">
-      <TagInput :suggestions="tagsuggestions.items" @updated="addTags" />
+      
     </div> -->
     <div class="flex flex-col justify-center">
     </div>
@@ -62,7 +65,7 @@ const { data: tagsuggestions } = await useAsyncData("tags", () =>
   queryContent("/tags").findOne()
 );
 const toast = useToast();
-const publishBtnText = ref("Publish");
+const publishBtnText = ref("Publishkhk");
 const draftBtnText = ref("Save Draft");
 
 const docUpdated = (doc) => {

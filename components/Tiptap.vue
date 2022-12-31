@@ -3,42 +3,42 @@
   <div v-if="editor" class="flex flex-col w-full h-full rounded-none sm:rounded-lg">
     <div class="sticky top-0 z-20 flex justify-between border-b text-neutral-500 focus:outline-none toolbar ">
       <div class="flex flex-wrap items-center gap-2 p-4 ">
-        <IconHeadingH1 @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
-          class="w-8 h-8 cursor-pointer hover:text-teal-600" :class="[
+        <IconFormatH1 @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
+          class="cursor-pointer hover:text-teal-600" :class="[
   editor.isActive('heading', { level: 1 })
     ? 'is-active text-teal-600'
     : 'text-stone-400',
 ]" />
 
-        <IconHeadingH2 @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
-          class="w-8 h-8 cursor-pointer hover:text-teal-600" :class="[
+        <IconFormatH2 @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
+          class="cursor-pointer hover:text-teal-600" :class="[
   editor.isActive('heading', { level: 2 })
     ? 'is-active text-teal-600'
     : 'text-neutral-400',
 ]" />
 
-        <IconHeadingH3 @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
-          class="w-8 h-8 cursor-pointer hover:text-teal-600" :class="[
+        <IconFormatH3 @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
+          class="cursor-pointer hover:text-teal-600" :class="[
   editor.isActive('heading', { level: 3 })
     ? 'is-active text-teal-600'
     : 'text-neutral-400',
 ]" />
 
-        <IconBold @click="editor.chain().focus().toggleBold().run()" class="w-6 cursor-pointer hover:text-teal-600"
+        <IconFormatBold @click="editor.chain().focus().toggleBold().run()" class="cursor-pointer hover:text-teal-600"
           :class="[
   editor.isActive('bold')
     ? 'is-active text-teal-600'
     : 'text-neutral-400',
 ]" />
 
-        <IconItalic @click="editor.chain().focus().toggleItalic().run()" class="w-6 cursor-pointer hover:text-teal-600"
-          :class="[
+        <IconFormatItalic @click="editor.chain().focus().toggleItalic().run()"
+          class="cursor-pointer hover:text-teal-600" :class="[
   editor.isActive('italic')
     ? 'is-active text-teal-600'
     : 'text-neutral-400',
 ]" />
 
-        <IconQuote @click="editor.chain().focus().toggleBlockquote().run()"
+        <IconFormatQuote @click="editor.chain().focus().toggleBlockquote().run()"
           class="w-6 cursor-pointer hover:text-teal-600" :class="[
   editor.isActive('blockquote')
     ? 'is-active text-teal-600'
@@ -65,25 +65,25 @@
         ]"
       /> -->
 
-        <IconHighlight @click="editor.chain().focus().toggleHighlight().run()"
+        <!-- <IconFormatPaint @click="editor.chain().focus().toggleHighlight().run()"
           class="w-8 cursor-pointer hover:text-teal-600" :class="[
   editor.isActive('highlight')
     ? 'is-active text-teal-600'
     : 'text-neutral-400',
-]" />
-        <IconAlignLeft @click="editor.chain().focus().setTextAlign('left').run()"
+]" /> -->
+        <IconFormatAlignLeft @click="editor.chain().focus().setTextAlign('left').run()"
           class="w-8 cursor-pointer hover:text-teal-600" :class="[
   editor.isActive({ textAlign: 'left' })
     ? 'is-active text-teal-600'
     : 'text-neutral-400',
 ]" />
-        <IconAlignMiddle @click="editor.chain().focus().setTextAlign('center').run()"
+        <IconFormatAlignCenter @click="editor.chain().focus().setTextAlign('center').run()"
           class="w-8 cursor-pointer hover:text-teal-600" :class="[
   editor.isActive({ textAlign: 'center' })
     ? 'is-active text-teal-600'
     : 'text-neutral-400',
 ]" />
-        <IconAlignRight @click="editor.chain().focus().setTextAlign('right').run()"
+        <IconFormatAlignRight @click="editor.chain().focus().setTextAlign('right').run()"
           class="w-8 cursor-pointer hover:text-teal-600" :class="[
   editor.isActive({ textAlign: 'right' })
     ? 'is-active text-teal-600'
@@ -167,7 +167,8 @@
     ? 'is-active text-teal-500'
     : 'text-neutral-400',
 ]" />
-        <IconBold @click="editor.chain().focus().toggleBold().run()" class="cursor-pointer hover:text-teal-500" :class="[
+        <IconFormatBold @click="editor.chain().focus().toggleBold().run()" class="cursor-pointer hover:text-teal-500"
+          :class="[
   editor.isActive('bold')
     ? 'is-active text-teal-500'
     : 'text-neutral-400',
@@ -212,13 +213,13 @@ import {
   IconHeadingH1,
   IconHeadingH2,
   IconHeadingH3,
-  IconBold,
+  // IconBold,   
   IconItalic,
   IconQuote,
   IconCode,
 } from "@iconify-prerendered/vue-gridicons";
 
-import { IconTypeH1 } from "@iconify-prerendered/vue-bi";
+import { IconFormatH1, IconFormatH2, IconFormatH3, IconFormatBold, IconFormatItalic, IconFormatQuote, IconFormatPaint, IconFormatAlignLeft, IconFormatAlignCenter, IconFormatAlignRight } from "@iconify-prerendered/vue-material-symbols";
 
 import {
   IconHighlight,
@@ -425,7 +426,7 @@ const addLink = (url) => {
   border-left: 1px solid #b6b6b6;
   border-right: 1px solid #b6b6b6;
   border-top: 1px solid #b6b6b6;
-  background: #f4f4f4;
+  background: #393939;
 }
 
 /* @media (prefers-color-scheme: dark) {
