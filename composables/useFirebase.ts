@@ -30,12 +30,13 @@ export const signInUser = async (email: string, password: string) => {
     password
   ).catch((error) => {
     const config = useRuntimeConfig()
+    console.log(config)
     const errorCode = error.code;
     const errorMessage = error.message;
     console.log(errorCode, errorMessage);
 
     if (errorCode === "auth/user-not-found") {
-      return `No user found.<br> Add new user in <a href="https://console.firebase.google.com/u/0/project/${config.FIREBASE_PROJECT_ID}/authentication/users" target="_blank" class="underline">Firebase Authentication</a> to sign in.`;
+      // return `No user found.<br> Add new user in <a href="https://console.firebase.google.com/u/0/project/${config.PRIVATE_FIREBASE_PROJECT_ID}/authentication/users" target="_blank" class="underline">Firebase Authentication</a> to sign in.`;
     }
     if (errorCode === "auth/wrong-password") {
       return "Wrong password";
@@ -68,6 +69,7 @@ export const signInUser = async (email: string, password: string) => {
 export const updateUserProfile = async (displayName: string, photoURL: string) => {
   try {
     const auth = getAuth();
+    // @ts-ignore
     let res = await updateProfile(auth.currentUser, { displayName, photoURL });
     return res;
   } catch (error) {
@@ -84,6 +86,7 @@ export const updateUserProfile = async (displayName: string, photoURL: string) =
 export const updateUserPassword = async (newPassword: string) => {
   try {
     const auth = getAuth();
+    // @ts-ignore
     let res = await updatePassword(auth.currentUser, newPassword);
     return res;
   } catch (error) {
@@ -95,12 +98,16 @@ export const updateUserPassword = async (newPassword: string) => {
 export const initUser = async () => {
   const auth = getAuth();
   const db = getFirestore();
+  // @ts-ignore
   const firebaseUser = useFirebaseUser();
+  // @ts-ignore
   const firebaseItems = useFirebaseItems();
   firebaseUser.value = auth.currentUser;
 
+  // @ts-ignore
   const userCookie = useCookie("userCookie");
 
+  // @ts-ignore
   const router = useRouter();
 
   onAuthStateChanged(auth, (user) => {
@@ -188,6 +195,7 @@ export const getDocsFromFirestore = async (collectionName: string) => {
     res.forEach((doc) => {
       let newdoc = doc.data();
       newdoc.uid = doc.id;
+      // @ts-ignore
       items.push(newdoc);
     });
     return items;
@@ -221,6 +229,7 @@ export const getOrderedDocsFromFirestore = async (collectionName: string, order:
     res.forEach((doc) => {
       let newdoc = doc.data();
       newdoc.uid = doc.id;
+      // @ts-ignore
       items.push(newdoc);
     });
     return items;
@@ -268,11 +277,12 @@ export const getDocsWithStatus = async (collectionName: string, status: string, 
         q = query(collection(db, collectionName), orderBy(order, "desc"));
       }
     }
-
+    // @ts-ignore
     let res = await getDocs(q);
     res.forEach((doc) => {
       let newdoc = doc.data();
       newdoc.uid = doc.id;
+      // @ts-ignore
       items.push(newdoc);
     });
     return items;
@@ -321,6 +331,7 @@ export const getDocFromFirestoreWithSlug = async (collectionName: string, slug: 
     });
 
 
+    // @ts-ignore
     return item
   } catch (error) {
     console.log('getDocFromFirestore-error', error);
@@ -345,6 +356,7 @@ export const getDocsMatchingTag = async (collectionName: string, tag: string) =>
       item.id = doc.id;
       // doc.data() is never undefined for query doc snapshots
       // console.log(doc.id, " => ", doc.data());
+      // @ts-ignore
       items.push(item)
     });
     return items
@@ -411,9 +423,13 @@ export const incrementPageView = async (collectionName: string, slug: string) =>
     item = doc.data();
     item.id = doc.id;
   });
-
+// @ts-ignore
   const docRef = doc(db, "posts", item.id);
   let res = await updateDoc(docRef, { views: increment(1) })
   // console.log(res);
   return
+}
+
+function useRuntimeConfig() {
+  throw new Error("Function not implemented.");
 }
