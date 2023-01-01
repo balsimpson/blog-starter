@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col min-h-screen py-12 sm:px-4 ">
-    <div class="flex-grow w-full max-w-4xl px-4 mx-auto text-center">
-      <AppCarousel v-if="posts.length" :items="posts"/>
+    <div v-if="posts && posts.length" class="flex-grow w-full max-w-4xl px-4 mx-auto text-center">
+      <AppCarousel :items="posts"/>
       <div class="grid gap-8 mt-6 text-left sm:grid-cols-2">
         <AppCard
           v-for="post in posts"
@@ -18,6 +18,10 @@
       <div class="text-left text-stone-600">
         <PostCard v-for="post in posts" :post="post"/>
       </div>
+    </div>
+
+    <div v-else>
+      Go to admin page to add new posts
     </div>
   </div>
 </template>

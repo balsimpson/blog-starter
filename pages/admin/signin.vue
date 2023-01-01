@@ -2,105 +2,53 @@
   <div class="flex items-center justify-center min-h-screen bg-white">
     <div class="w-full max-w-md px-2 py-12 mx-auto bg-transparent sm:px-12">
       <div
-        class="mt-6 text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-teal-400 to-teal-800 "
-      >
+        class="mt-6 text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-teal-400 to-teal-800 ">
         Sign in.
       </div>
 
-      
-      <div class="px-4 py-3 mt-6 border rounded">
-        <p class="text-sm text-gray-500">
-        You need an invitation to enter <span class="font-bold">Pullonath</span>. Enter your email address below to request an invite.
-      </p>
-      <div>
-          <!-- <label
-            for="email"
-            class="block text-sm font-bold text-left text-gray-500"
-          >
-            Email
-          </label> -->
-          <div class="mt-2">
-            <input
-              v-model="emailInput"
-              type="email"
-              autocomplete="email"
-              required="true"
-              placeholder="john@doe.com"
-              class="w-full px-3 py-1 text-base leading-8 transition-colors duration-200 ease-in-out border rounded outline-none text-stone-600 bg-stone-600 border-stone-600 bg-opacity-20 focus:bg-transparent focus:ring-1 placeholder-stone-400 focus:ring-teal-500 focus:border-teal-500 "
-            />
-          </div>
-
-          <button class="px-3 py-1 mt-2 text-sm text-white capitalize bg-indigo-600 rounded-lg">request an invite</button>
-        </div>
-      </div>
-
       <div class="w-full mx-auto mt-4">
-        <div class="relative w-full my-12 border-b">
-          <div class="absolute px-2 font-bold leading-4 text-center translate-x-1/2 bg-white font-arvo -top-3 right-1/2">Member's Entrance</div>
-        </div>
         <form @submit="login" class="space-y-4">
           <div>
-            <label
-              for="email"
-              class="block text-sm font-bold text-left text-gray-500"
-            >
+            <label for="email" class="block text-sm font-bold text-left text-gray-500">
               Email
             </label>
             <div class="mt-1">
-              <input
-                v-model="emailInput"
-                type="email"
-                autocomplete="email"
-                required="true"
-                placeholder="john@doe.com"
-                class="w-full px-3 py-1 text-base leading-8 transition-colors duration-200 ease-in-out border rounded outline-none text-stone-600 bg-stone-600 border-stone-600 bg-opacity-20 focus:bg-transparent focus:ring-1 placeholder-stone-400 focus:ring-teal-500 focus:border-teal-500 "
-              />
+              <input v-model="emailInput" type="email" autocomplete="email" required="true" placeholder="john@doe.com"
+                class="w-full px-3 py-1 text-base leading-8 transition-colors duration-200 ease-in-out border rounded outline-none text-stone-600 bg-stone-600 border-stone-600 bg-opacity-20 focus:bg-transparent focus:ring-1 placeholder-stone-400 focus:ring-teal-500 focus:border-teal-500 " />
             </div>
           </div>
           <div class="space-y-1">
-            <label
-              for="password"
-              class="block text-sm font-bold text-left text-gray-500"
-            >
+            <label for="password" class="block text-sm font-bold text-left text-gray-500">
               Password
             </label>
             <div class="mt-1">
-              <input
-                v-model="passwordInput"
-                id="password"
-                type="password"
-                autocomplete="current-password"
-                required="true"
-                placeholder="password"
-                class="w-full px-3 py-1 text-base leading-8 transition-colors duration-200 ease-in-out border rounded outline-none text-stone-600 bg-stone-600 border-stone-600 bg-opacity-20 focus:bg-transparent focus:ring-1 placeholder-stone-400 focus:ring-teal-500 focus:border-teal-500 "
-              />
+              <input v-model="passwordInput" id="password" type="password" autocomplete="current-password"
+                required="true" placeholder="password"
+                class="w-full px-3 py-1 text-base leading-8 transition-colors duration-200 ease-in-out border rounded outline-none text-stone-600 bg-stone-600 border-stone-600 bg-opacity-20 focus:bg-transparent focus:ring-1 placeholder-stone-400 focus:ring-teal-500 focus:border-teal-500 " />
             </div>
           </div>
 
           <div class="mt-1">
-            <div class="h-2 mb-4 text-sm text-center text-red-500">
-              {{ loginErrorMsg }}
+            <div class="max-w-[85rem] px-4 py-4 sm:px-6 lg:px-8 mx-auto">
+
+              <p v-html="loginErrorMsg" class="text-sm font-bold text-center text-red-500">
+              </p>
+
             </div>
-            <button
-              @click.prevent="login"
+            <!-- <div v-show="loginErrorMsg" class="mb-4 text-sm text-center text-red-500">
+              {{ loginErrorMsg }}
+            </div> -->
+            <button @click.prevent="login"
               class="flex items-center justify-center w-full px-4 py-2 font-bold text-white rounded focus:outline-none focus:ring-teal-800 focus:ring-2 focus:ring-offset-0"
               :class="[
-                emailInput && passwordInput
-                  ? 'bg-teal-600'
-                  : 'bg-teal-600 opacity-50 text-teal-200 pointer-events-none',
-              ]"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                class="w-5 h-5 mr-4"
-              >
-                <path
-                  fill-rule="evenodd"
+  emailInput && passwordInput
+    ? 'bg-teal-600'
+    : 'bg-teal-600 opacity-50 text-teal-200 pointer-events-none',
+]">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 mr-4">
+                <path fill-rule="evenodd"
                   d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z"
-                  clip-rule="evenodd"
-                />
+                  clip-rule="evenodd" />
               </svg>
               {{ btnText }}
             </button>
@@ -138,7 +86,7 @@ const login = async () => {
       btnText.value = "Sign in";
       setTimeout(() => {
         loginErrorMsg.value = "";
-      }, 3000);
+      }, 5000);
     }
   } catch (error) {
     console.log("error", error);
@@ -153,11 +101,12 @@ const errorMsg = (err) => {
 
 onMounted(() => {
   const userCookie = useCookie("userCookie");
-  if (userCookie) {
+  if (userCookie.value) {
     router.push("/");
   }
 });
 </script>
 
 <style>
+
 </style>

@@ -29,12 +29,13 @@ export const signInUser = async (email: string, password: string) => {
     email,
     password
   ).catch((error) => {
+    const config = useRuntimeConfig()
     const errorCode = error.code;
     const errorMessage = error.message;
     console.log(errorCode, errorMessage);
 
     if (errorCode === "auth/user-not-found") {
-      return "You are not on the list. Request an invite.";
+      return `No user found.<br> Add new user in <a href="https://console.firebase.google.com/u/0/project/${config.FIREBASE_PROJECT_ID}/authentication/users" target="_blank" class="underline">Firebase Authentication</a> to sign in.`;
     }
     if (errorCode === "auth/wrong-password") {
       return "Wrong password";

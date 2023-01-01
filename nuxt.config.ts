@@ -33,7 +33,7 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/content', 
     // '@nuxtjs/color-mode', 
-    '@nuxt/image-edge',
+    // '@nuxt/image-edge',
   ],
   // colorMode: {
   //   preference: 'light', // default value of $colorMode.preference
